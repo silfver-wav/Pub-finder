@@ -1,0 +1,68 @@
+.sideDiv {
+  background-color: rgb(24, 23, 23);
+  border-radius: 10px;
+  padding: 2px 10px 10px 10px;
+  position: absolute;
+  top: 67px;
+  right: 10px;
+  z-index: 999;
+  height: 70rem;
+  overflow-y: auto;
+}
+
+.sideDiv::-webkit-scrollbar {
+  width: 10px; /* Set the width of the scrollbar */
+}
+
+.sideDiv::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 5px;
+}
+
+/*==================================================*/
+
+.barTab {
+  color: white;
+  margin: 10px 0;
+  padding: 15px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.barTab:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/*==================================================*/
+
+.name {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.iconText {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.iconText svg {
+  margin-right: 5px;
+}
+
+.iconText p {
+  margin: 0;
+}
+
+.description {
+  margin-top: 5px;
+  text-align: left;
+}

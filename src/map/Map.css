@@ -1,0 +1,14 @@
+/* MapContainer */
+.leaflet-container {
+  height: 100vh;
+}
+
+.layer {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  cursor: pointer;
+  color: rgb(233, 229, 229);
+  font-size: 28px;
+  z-index: 999;
+}
