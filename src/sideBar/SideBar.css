@@ -11,7 +11,7 @@
 }
 
 .sideDiv::-webkit-scrollbar {
-  width: 10px; /* Set the width of the scrollbar */
+  width: 10px;
 }
 
 .sideDiv::-webkit-scrollbar-thumb {
