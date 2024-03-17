@@ -15,8 +15,8 @@ export default function SideBar() {
       {pubs.map((pub) => (
         <div
           className="barTab"
-          onClick={() => dispatch(focusOnPub(pub.geocode))}
-          key={pub.geocode}
+          onClick={() => dispatch(focusOnPub([pub.lat, pub.lng]))}
+          key={pub.id}
         >
           <p className="name">{pub.name}</p>
           <div className="iconText">
