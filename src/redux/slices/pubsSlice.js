@@ -4,34 +4,9 @@ import axios from "axios";
 
 const initialState = {
   pubs: [],
-  status: "ideal", // Change to idel latter
+  status: "ideal",
   error: '',
 };
-
-export const searchPub = createAsyncThunk(
-  "pubs/searchPub",
-  async (pubName, thunkAPI) => {
-    const { getState, dispatch } = thunkAPI;
-    const { pubs } = getState();
-
-    const existingPub = pubs.find((pub) => pub.name === pubName);
-
-    if (existingPub) {
-      return existingPub;
-    }
-    return null;
-    /*
-
-    try {
-      const response = await client.get(`/fakeApi/pubs?name=${pubName}`);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-    
-    */
-  }
-);
 
 export const fetchPubs = createAsyncThunk("pubs/fetchPubs", async ({ lat, lng, radius }) => {
   try {

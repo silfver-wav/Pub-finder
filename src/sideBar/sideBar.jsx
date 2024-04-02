@@ -11,12 +11,39 @@ import correctEncoding from "../util/correctEncoding";
 
 export default function SideBar() {
   const pubs = useSelector((state) => state.pubs.pubs);
-  const dispatch = useDispatch();
   const [expandedPubId, setExpandedPubId] = useState(null);
+  const searchedPub = useSelector((state) => state.pub.pub);
 
   const toggleExpanded = (pubId) => {
     setExpandedPubId(expandedPubId === pubId ? null : pubId);
   };
+
+function isEmpty(obj) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+  return (
+    <div className="sideDiv">
+        {!isEmpty(searchedPub) &&
+        (<>
+            <BarTab pub={searchedPub} expanded={expandedPubId === searchedPub.id} toggleExpanded={toggleExpanded} />
+            <hr /> {/* Divider */}
+        </>
+        )}
+        {pubs.map((pub) => (
+        <BarTab key={pub.id} pub={pub} expanded={expandedPubId === pub.id} toggleExpanded={toggleExpanded} />
+        ))}
+    </div>
+  );
+}
+
+const BarTab = ({ pub, expanded, toggleExpanded }) => {
+const dispatch = useDispatch();
 
   const formatTime = (timeString) => {
     const [hours, minutes] = timeString.split(':');
@@ -24,13 +51,11 @@ export default function SideBar() {
   };
 
   const formatOpeningHoursForToday = (openingHours) => {
-    console.log(openingHours);
     if (openingHours === null)
       return ``;
     const daysOfWeek = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
     const todayIndex = new Date().getDay();
     const today = daysOfWeek[todayIndex];
-    console.log("today: ", today)
 
     if (openingHours[today].length > 0) {
       const startTime = formatTime(openingHours[today][0].startTime);
@@ -41,9 +66,7 @@ export default function SideBar() {
     }
   };
 
-  return (
-    <div className="sideDiv">
-      {pubs.map((pub) => (
+    return (
         <div
           className="barTab"
           onClick={() => dispatch(focusOnPub([pub.lat, pub.lng]))}
@@ -62,7 +85,7 @@ export default function SideBar() {
           </div>
           <p className="description">{pub.description}</p>
 
-          {expandedPubId === pub.id && (
+          {expanded === pub.id && (
             <div className="expandedInfo">
               <div className="iconText">
                 <FaToilet />
@@ -93,11 +116,9 @@ export default function SideBar() {
           )}
 
           <button onClick={() => toggleExpanded(pub.id)} className="button">
-            {expandedPubId === pub.id ? 'Show Less' : 'Show More'}
+            {expanded === pub.id ? 'Show Less' : 'Show More'}
           </button>
 
         </div>
-      ))}
-    </div>
-  );
-}
+    );
+};

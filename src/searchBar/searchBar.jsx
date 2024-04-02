@@ -1,21 +1,31 @@
 import { React, useState } from "react";
-import "./SearchBar.css";
+import "./SearchResults.css";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { searchPub } from "../redux/slices/pubsSlice";
+import { searchPub } from "../redux/slices/searchSlice";
+import { clearSearchResults } from "../redux/slices/searchSlice";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
-  const [search, setSearch] = useState("");
+  const stopWords = [
+      'a', 'an', 'and', 'are', 'as', 'at', 'be', 'but', 'by', 'for', 'if', 'in', 'into', 'is', 'it', 'no',
+      'not', 'of', 'on', 'or', 'such', 'that', 'the', 'their', 'then', 'there', 'these', 'they', 'this',
+      'to', 'was', 'will', 'with'
+  ];
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      const pub = dispatch(searchPub(search));
-      if (pub) {
-        console.log("Pub found:", pub);
-      } else {
-        console.log("Pub not found");
-      }
+  const handleChange = (search) => {
+    if (search.length > 1) {
+        search = search.toLowerCase();
+        const words = search.split(' ');
+
+        const filteredWords = words.filter((word, index) => index === 0 || !stopWords.includes(word));
+        search = filteredWords.join(' ');
+
+        if (search.length < 9) {
+            const pub = dispatch(searchPub(search));
+        }
+    } else {
+        dispatch(clearSearchResults());
     }
   };
 
@@ -25,14 +35,9 @@ export default function SearchBar() {
         type="text"
         placeholder="Search..."
         className="searchBar"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        onKeyPress={handleKeyPress}
+        onChange={(e) => handleChange(e.target.value)}
       />
-      <FaSearch
-        className="searchIcon"
-        onClick={() => dispatch(searchPub(search))}
-      />
+      <FaSearch className="searchIcon" />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { toggleLayer } from "./redux/slices/layerSlice";
 import Weather from "./weather/weather";
 import {BrowserView, MobileView} from 'react-device-detect';
 import BottomBar from './bottomBar/bottomBar';
+import SearchResults from './searchBar/searchResults';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function App() {
   return (
     <div className="App">
         <SearchBar />
-
+        <SearchResults />
         <BrowserView >
             <MdOutlineLayers
                size={30}
