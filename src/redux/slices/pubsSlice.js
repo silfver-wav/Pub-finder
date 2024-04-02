@@ -1,16 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import mockData from "./mockData";
+import axios from "axios";
 
 const initialState = {
-  pubs: mockData,
-  status: "succeeded", // Change to idel latter
-  error: null,
+  pubs: [],
+  status: "ideal", // Change to idel latter
+  error: '',
 };
-
-export const fetchPubs = createAsyncThunk("pubs/fetchPubs", async () => {
-  const response = await client.get("/fakeApi/pubs");
-  return response.data;
-});
 
 export const searchPub = createAsyncThunk(
   "pubs/searchPub",
@@ -37,35 +33,39 @@ export const searchPub = createAsyncThunk(
   }
 );
 
+export const fetchPubs = createAsyncThunk("pubs/fetchPubs", async ({ lat, lng, radius }) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/pub/getPubs/${lat}/${lng}/${radius}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+});
+
 const pubsSlice = createSlice({
   name: "pubs",
   initialState,
-  reducers: {},
-  extraReducers(builder) {
+  reducers: {
+  },
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchPubs.pending, (state, action) => {
+      .addCase(fetchPubs.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchPubs.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.pubs = state.pubs.concat(action.payload);
+        state.pubs = action.payload;
       })
       .addCase(fetchPubs.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      })
-
-      .addCase(searchPub.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(searchPub.fulfilled, (state, action) => {
-        state.loading = false;
-        state.pubs.push(action.payload);
-      })
-      .addCase(searchPub.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
       });
   },
 });

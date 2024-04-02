@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPubs } from "../redux/slices/pubsSlice";
 import "./Map.css";
 import "leaflet/dist/leaflet.css";
 import {
@@ -15,6 +16,7 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import marker from "../../content/beer (1).png";
 import marker2 from "../../content/position (1).png";
 import here from "../../content/time.png";
+import correctEncoding from "../util/correctEncoding";
 
 const beerIcon = new Icon({
   iconUrl: marker,
@@ -24,7 +26,29 @@ const beerIcon = new Icon({
 export default function Map() {
   const layer = useSelector((state) => state.layer.realisticMap);
   const pubs = useSelector((state) => state.pubs.pubs);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      console.log("Geolocation not supported");
+    }
+
+    function success(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+      // dispatch(fetchPubs({ lat: latitude, lng: longitude, radius: 1 }));
+      dispatch(fetchPubs({ lat: 59.31406275108505, lng: 18.071794637357076, radius: 5.5 }));
+    }
+    
+    function error() {
+      console.log("Unable to retrieve your location");
+    }
+  }, []);
+
+  
   return (
     <MapContainer center={[59.31508, 18.072309]} zoom={16}>
       {renderTileLayer(layer)}
@@ -33,8 +57,8 @@ export default function Map() {
 
       <MarkerClusterGroup chunkedLoading animate={true} maxClusterRadius={10}>
         {pubs.map((pub) => (
-          <Marker position={pub.geocode} icon={beerIcon}>
-            <Popup>{pub.name}</Popup>
+          <Marker key={pub.id} position={[pub.lat, pub.lng]} icon={beerIcon}>
+            <Popup>{correctEncoding(pub.name)}</Popup>
           </Marker>
         ))}
       </MarkerClusterGroup>

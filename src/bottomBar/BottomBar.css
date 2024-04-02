@@ -1,0 +1,114 @@
+.bottomDiv {
+  background-color: rgb(24, 23, 23);
+  border-radius: 10px;
+  padding: 5px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 70vh;
+  z-index: 999;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.bottomDiv::-webkit-scrollbar {
+  width: 10px;
+}
+
+.bottomDiv::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 5px;
+}
+
+.bottomBarTab {
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.basicInfoDiv {
+  padding: 15px;
+  margin: 5 5 0 5px;
+  cursor: pointer;
+  height: 26vh;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.extendedInfoDiv {
+  padding: 15px;
+  margin: 5 5 0 5px;
+  cursor: pointer;
+  height: auto;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.secondLine {
+ display: flex;
+ align-items: center;
+}
+
+.bottomName {
+  font-size: 1.4em;
+  width: 80vw;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.location {
+  font-size: 0.2em;
+  text-align: left;
+}
+
+.time {
+  font-size: 0.6em;
+  text-align: left;
+}
+
+.BottomPrice {
+  margin-left: 5em;;
+  font-size: 1.1em;
+  text-align: right;
+}
+
+.website-link {
+  color: rgb(69, 125, 229);
+}
+
+.iconText {
+  display: flex;
+  align-items: center;
+}
+
+.iconText svg {
+  margin-right: 5px;
+}
+
+.iconText p {
+  margin: 0;
+}
+
+.bottomDescription {
+  margin-top: 5px;
+  text-align: left;
+  width: 80vw;
+}
+
+.button {
+  font-size: 1.1em;
+  border: none;
+  color: white;
+  background-color: transparent;
+  display: block;
+  margin: 0px auto;
+}
+
+.button:hover {
+  color: rgb(106, 93, 204);
+}

@@ -3,12 +3,20 @@
   height: 100vh;
 }
 
-.layer {
+.layerBrowser {
   position: fixed;
   bottom: 10px;
   left: 10px;
   cursor: pointer;
   color: rgb(233, 229, 229);
-  font-size: 28px;
+  z-index: 999;
+}
+
+.layerMobile {
+  position: fixed;
+  top: 15px;
+  right: 10px;
+  cursor: pointer;
+  color: rgb(233, 229, 229);
   z-index: 999;
 }
