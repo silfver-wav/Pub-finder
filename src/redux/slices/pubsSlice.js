@@ -35,7 +35,12 @@ export const searchPub = createAsyncThunk(
 
 export const fetchPubs = createAsyncThunk("pubs/fetchPubs", async ({ lat, lng, radius }) => {
   try {
-    const response = await axios.get(`http://localhost:8080/pub/getPubs/${lat}/${lng}/${radius}`);
+    const response = await axios.get(`http://localhost:8080/pub/getPubs/${lat}/${lng}/${radius}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    });
     console.log(response.data);
     return response.data;
   } catch (error) {

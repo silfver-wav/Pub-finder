@@ -48,6 +48,26 @@
   margin-bottom: 8px;
 }
 
+.location {
+  font-size: 0.2em;
+  text-align: left;
+}
+
+.time {
+  font-size: 0.6em;
+  text-align: left;
+}
+
+.price {
+  font-size: 1.2em;
+  text-align: left;
+  margin-bottom: 4px;
+}
+
+.website-link {
+  color: rgb(69, 125, 229);
+}
+
 .iconText {
   display: flex;
   align-items: center;
@@ -65,4 +85,17 @@
 .description {
   margin-top: 5px;
   text-align: left;
+}
+
+.button {
+  font-size: 1.1em;
+  border: none;
+  color: white;
+  background-color: transparent;
+  display: block;
+  margin: 0 auto;
+}
+
+.button:hover {
+  color: rgb(106, 93, 204);
 }

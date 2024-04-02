@@ -16,7 +16,7 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import marker from "../../content/beer (1).png";
 import marker2 from "../../content/position (1).png";
 import here from "../../content/time.png";
-
+import correctEncoding from "../util/correctEncoding";
 
 const beerIcon = new Icon({
   iconUrl: marker,
@@ -39,7 +39,8 @@ export default function Map() {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
       console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-      dispatch(fetchPubs({ lat: latitude, lng: longitude, radius: 100000 }));
+      // dispatch(fetchPubs({ lat: latitude, lng: longitude, radius: 1 }));
+      dispatch(fetchPubs({ lat: 59.31406275108505, lng: 18.071794637357076, radius: 5.5 }));
     }
     
     function error() {
@@ -57,7 +58,7 @@ export default function Map() {
       <MarkerClusterGroup chunkedLoading animate={true} maxClusterRadius={10}>
         {pubs.map((pub) => (
           <Marker key={pub.id} position={[pub.lat, pub.lng]} icon={beerIcon}>
-            <Popup>{pub.name}</Popup>
+            <Popup>{correctEncoding(pub.name)}</Popup>
           </Marker>
         ))}
       </MarkerClusterGroup>
