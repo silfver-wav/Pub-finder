@@ -5,8 +5,8 @@
   position: absolute;
   top: 67px;
   right: 10px;
-  z-index: 999;
-  height: 38rem;
+  z-index: 998;
+  height: 87vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
