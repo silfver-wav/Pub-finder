@@ -22,9 +22,7 @@ export default function SideBar() {
     const [hours, minutes] = timeString.split(':');
     return `${hours}:${minutes}`;
   };
-  
 
-  // Function to format opening hours for the current day
   const formatOpeningHoursForToday = (openingHours) => {
     console.log(openingHours);
     if (openingHours === null)
@@ -71,13 +69,13 @@ export default function SideBar() {
                 <p className="description">{pub.washroom ? 'yes' : 'no'}</p>
               </div>
 
-              <div className="iconText"> 
+              <div className="iconText">
                 <FaGlobe />
                 <a href={pub.website} target="_blank" rel="noopener noreferrer" className="website-link">
                   {pub.website}
                 </a>
               </div>
-              
+
               <p className="description">{pub.outDoorSeating}</p>
               <div className="iconText">
                 <RxAccessibility />

@@ -6,8 +6,9 @@
   top: 67px;
   right: 10px;
   z-index: 999;
-  height: 70rem;
+  height: 38rem;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sideDiv::-webkit-scrollbar {
