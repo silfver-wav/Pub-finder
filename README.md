@@ -2,8 +2,7 @@
 
 A web application designed to help users find pubs near them and display them on a map.
 
-![Sandbox - CodeSandbox and 19 more pages - Personal - Microsoft​ Edge 2024-03-03 13_48_47](https://github.com/silfver-wav/Pub-finder/assets/56982388/c353220e-68b5-46b7-8734-354d39ae5d5b)
-
+![Pub Finder Demo](demo/demo.gif)
 
 ## Features
 
