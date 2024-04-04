@@ -40,7 +40,7 @@ export default function Map() {
       const longitude = position.coords.longitude;
       console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
       // dispatch(fetchPubs({ lat: latitude, lng: longitude, radius: 1 }));
-      dispatch(fetchPubs({ lat: 59.31406275108505, lng: 18.071794637357076, radius: 0.5 }));
+      dispatch(fetchPubs({ lat: 59.31406275108505, lng: 18.071794637357076, radius: 2.5 }));
     }
     
     function error() {
