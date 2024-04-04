@@ -3,6 +3,7 @@ import "./SearchBar.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getPub } from "../redux/slices/pubSlice";
 import { clearSearchResults } from "../redux/slices/searchSlice";
+import correctEncoding from "../util/correctEncoding";
 
 export default function SearchResults() {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export default function SearchResults() {
           onClick={() => handleClick(rs.id)}
           key={rs.id}
         >
-          {rs.name}
+          {correctEncoding(rs.name)}
         </div>
       ))}
     </div>
