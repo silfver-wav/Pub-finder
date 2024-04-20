@@ -1,9 +1,8 @@
 import { React } from "react";
-import "./SearchBar.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getPub } from "../redux/slices/pubSlice";
 import { clearSearchResults } from "../redux/slices/searchSlice";
-import correctEncoding from "../util/correctEncoding";
+import correctEncoding from "../utils/correctEncoding";
 
 export default function SearchResults() {
   const dispatch = useDispatch();
@@ -17,10 +16,10 @@ export default function SearchResults() {
   };
 
   return (
-    <div className="results-list">
+    <div className="">
       {searchResults.map((rs) => (
         <div
-          className="result"
+          className=""
           onClick={() => handleClick(rs.id)}
           key={rs.id}
         >

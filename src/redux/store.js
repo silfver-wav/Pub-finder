@@ -3,6 +3,7 @@ import pubsReducer from "./slices/pubsSlice";
 import layerReducer from "./slices/layerSlice";
 import pubReducer from "./slices/pubSlice";
 import searchReducer from "./slices/searchSlice";
+import authReducer from "./slices/authSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     pubs: pubsReducer,
     pub: pubReducer,
     search: searchReducer,
+    auth: authReducer,
   },
 });
