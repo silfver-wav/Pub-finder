@@ -1,42 +1,8 @@
-.results-list {
-  background-color: rgb(24, 23, 23);
-  width: 50%;
-  border-radius: 10px;
-  padding: 0 15px;
-  display: flex;
-  box-shadow: 0 0 5px 0 rgb(129, 115, 115);
-  align-items: center;
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  flex-direction: column;
-  margin-top: 3rem;
-  max-height: 300px;
-  overflow-y: auto;
-  transform: translateX(-50%);
-  z-index: 999;
-  color: rgb(212, 210, 190);
-}
-
-.results-list::-webkit-scrollbar {
+.scrollbar-thin::-webkit-scrollbar {
   width: 10px;
 }
 
-.results-list::-webkit-scrollbar-thumb {
+.scrollbar-thin::-webkit-scrollbar-thumb {
   background-color: black;
   border-radius: 5px;
-}
-
-.result {
-  margin: 5px 0px 5px 0px;
-  width: 100%;
-  border-radius: 5px;
-  height: 2rem;
-  cursor: pointer;
-  align-items: center;
-  display: flex;
-}
-
-.result:hover {
-  background-color: rgba(255, 255, 255, 0.3);
 }

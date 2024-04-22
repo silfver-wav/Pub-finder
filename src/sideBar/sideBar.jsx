@@ -7,7 +7,7 @@ import { FaToilet } from "react-icons/fa";
 import { RxAccessibility } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
 import { focusOnPub } from "../redux/slices/pubSlice";
-import correctEncoding from "../util/correctEncoding";
+import correctEncoding from "../utils/correctEncoding";
 
 export default function SideBar() {
   const pubs = useSelector((state) => state.pubs.pubs);

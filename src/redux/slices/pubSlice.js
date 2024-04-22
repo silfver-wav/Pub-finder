@@ -4,6 +4,8 @@ import axios from "axios";
 const initialState = {
   geocode: [],
   pub: {},
+  status: "idle",
+  error: null
 };
 
 export const getPub = createAsyncThunk("pubs/getPub", async (id) => {

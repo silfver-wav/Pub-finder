@@ -16,7 +16,7 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import marker from "../../content/beer (1).png";
 import marker2 from "../../content/position (1).png";
 import here from "../../content/time.png";
-import correctEncoding from "../util/correctEncoding";
+import correctEncoding from "../utils/correctEncoding";
 
 const beerIcon = new Icon({
   iconUrl: marker,
@@ -50,7 +50,7 @@ export default function Map() {
 
   
   return (
-    <MapContainer center={[59.31508, 18.072309]} zoom={16}>
+    <MapContainer center={[59.31508, 18.072309]} zoom={16} zoomControl={false}>
       {renderTileLayer(layer)}
 
       <FocusOnLocation />
