@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signout } from "./redux/slices/authSlice";
 
 export default function DropdownMenu() {
+    const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
+    const loginStatus = localStorage.getItem('accessToken');
+
+    const logout = () => {
+        dispatch(signout());
+        setShowMenu(false);
+    };
 
     return (
         <div className="absolute top-0 left-0 z-50">
@@ -28,14 +36,14 @@ export default function DropdownMenu() {
                     aria-labelledby="menu-button"
                     tabIndex="-1"
                 >
-                    {loggedIn ? (
+                    {loginStatus ? (
                         <>
                             <div className="py-1" role="none">
                                 <a href="#" className="menu-item" role="menuitem" tabIndex="-1" id="menu-item-2">Reviews</a>
                                 <a href="#" className="menu-item" role="menuitem" tabIndex="-1" id="menu-item-3">Visited Pubs</a>
                             </div>
                             <div className="py-1" role="none">
-                                <a href="#" className="menu-item" role="menuitem" tabIndex="-1" id="menu-item-6">Logout</a>
+                                <p href="#" className="menu-item cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-6" onClick={() => logout()}>Logout</p>
                             </div>
                         </>
                     ) : (

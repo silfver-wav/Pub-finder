@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthContainer from "./AuthContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../redux/slices/authSlice";
 import { useNavigate } from 'react-router-dom';
 
-// fix username is in use
-// fix email is already in use
 export default function SignupForm() {
   const dispatch = useDispatch();
   const loginStatus  = useSelector(state => state.auth.status);
   let navigate = useNavigate()
-
 
   const [formInput, setFormInput] = useState({
     firstname: "",
@@ -59,7 +56,6 @@ export default function SignupForm() {
     };
 
     if (formInput.password != formInput.confirmPassword) {
-      console.log("I am here");
       setFormError({
         ...inputError,
         ErrorMsg: "Password and confirm password should be the same.",
@@ -67,13 +63,27 @@ export default function SignupForm() {
       return;
     }
 
-    setFormError(inputError);
-    setFormInput((prevState) => ({
-      ...prevState,
-      sucessMsg: "Validation Success",
-    }))
+    dispatch(signup(formInput))
   }
 
+  useEffect(() => {
+    if (loginStatus === 'succeeded') {
+        setFormInput({
+          firstname: "",
+          lastname: "",
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          sucessMsg: "",
+        });
+        navigate('/')
+    } else if (loginStatus === 'failed') {
+      setFormError({
+        ErrorMsg: "signup failed",
+      })
+    }
+  }, [loginStatus]);
 
 
   return (

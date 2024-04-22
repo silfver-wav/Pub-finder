@@ -42,7 +42,7 @@ export default function LoginForm(){
               password: "",
           });
           navigate('/')
-      } else {
+      } else if (loginStatus === 'failed') {
         setFormError({
           ErrorMsg: "login failed",
         })
