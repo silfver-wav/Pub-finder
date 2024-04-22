@@ -77,11 +77,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials(state, action) {
-      const { accessToken, refreshToken } = action.payload
-      localStorage.setItem("accessToken", accessToken);
-      Cookies.set('refresher-cookie', refreshToken, { expires: 14})
-    }
   },
   extraReducers(builder) {
     builder
@@ -89,7 +84,7 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         const { accessToken, refreshToken } = action.payload
         localStorage.setItem("accessToken", accessToken);
-        Cookies.set('refresher-cookie', refreshToken, { expires: 14})
+        Cookies.set('refresher-cookie', refreshToken, { expires: 1})
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
@@ -101,7 +96,7 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         const { accessToken, refreshToken } = action.payload
         localStorage.setItem("accessToken", accessToken);
-        Cookies.set('refresher-cookie', refreshToken, { expires: 14})
+        Cookies.set('refresher-cookie', refreshToken, { expires: 1})
         state.error = null;
       })
       .addCase(signup.rejected, (state, action) => {
