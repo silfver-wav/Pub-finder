@@ -19,6 +19,7 @@ export default function StartPage() {
     <>
       <DropdownMenu />
       <SearchBar />
+      <SideBar />
       <SearchResults />
       <MdOutlineLayers
         size={30}

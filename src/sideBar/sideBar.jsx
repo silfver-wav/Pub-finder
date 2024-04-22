@@ -8,23 +8,24 @@ import { RxAccessibility } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
 import { focusOnPub } from "../redux/slices/pubSlice";
 import correctEncoding from "../utils/correctEncoding";
+import { MdBeenhere } from "react-icons/md";
+import { MdOutlineBeenhere } from "react-icons/md";
 
 export default function SideBar() {
   const pubs = useSelector((state) => state.pubs.pubs);
+  const searchedPub = useSelector((state) => state.pub.pub);
 
-    const searchedPub = useSelector((state) => state.pub.pub);
-
-    function isEmpty(obj) {
-      for (const prop in obj) {
-        if (Object.hasOwn(obj, prop)) {
-          return false;
-        }
+  function isEmpty(obj) {
+    for (const prop in obj) {
+      if (Object.hasOwn(obj, prop)) {
+        return false;
       }
-      return true;
     }
+    return true;
+  }
 
   return (
-    <div className="sideDiv">
+    <div className="bg-gray-900 rounded-lg p-2 pb-10 absolute top-16 right-2 z-40 scrollbar-thin overflow-y-auto sideDiv">
         {!isEmpty(searchedPub) &&
         (<>
             <BarTab pub={searchedPub} />
@@ -39,13 +40,13 @@ export default function SideBar() {
 }
 
 const BarTab = ({ pub }) => {
-    const dispatch = useDispatch();
-    const [expandedPubId, setExpandedPubId] = useState(null);
+  const dispatch = useDispatch();
+  const [expandedPubId, setExpandedPubId] = useState(null);
+  const [visited, setVisited] = useState(false); // use pub object
 
-    const toggleExpanded = (pubId) => {
-        setExpandedPubId(expandedPubId === pubId ? null : pubId);
-    };
-
+  const toggleExpanded = (pubId) => {
+      setExpandedPubId(expandedPubId === pubId ? null : pubId);
+  };
 
   const formatTime = (timeString) => {
     const [hours, minutes] = timeString.split(':');
@@ -68,59 +69,70 @@ const BarTab = ({ pub }) => {
     }
   };
 
-    return (
-        <div
-          className="barTab"
-          onClick={() => dispatch(focusOnPub([pub.lat, pub.lng]))}
-          key={pub.id}
-        >
-          <p className="name">{correctEncoding(pub.name)}</p>
+  const visitedPub = () => {
+    setVisited(!visited);
+  }
 
-          <p className="price">{pub.price}</p>
+  return (
+    <div
+      className="barTab"
+      onClick={() => dispatch(focusOnPub([pub.lat, pub.lng]))}
+      key={pub.id}
+    >
+      <p className="name">{correctEncoding(pub.name)}</p>
+      <div className="flex justify-between">
+        <p className="price">{pub.price}</p>
+        { visited ? 
+          <MdOutlineBeenhere size={25} className="ml-40 text-cyan-400 hover:text-white" onClick={() => visitedPub()}/>
+        :
+          <MdOutlineBeenhere size={25} className="ml-40 hover:text-cyan-400" onClick={() => visitedPub()}/>
+        }
+        
+      </div>
+      <div className="iconText">
+        <IoTimeOutline />
+        <p className="time" >{formatOpeningHoursForToday(pub.openingHours)}</p>
+      </div>
+      <div className="iconText">
+        <GoLocation />
+        <p className="location" >{correctEncoding(pub.location)}</p>
+      </div>
+      <p className="description">{pub.description}</p>
+
+      {expandedPubId === pub.id && (
+        <div className="expandedInfo">
           <div className="iconText">
-            <IoTimeOutline />
-            <p className="time" >{formatOpeningHoursForToday(pub.openingHours)}</p>
+            <FaToilet />
+            <p className="description">{pub.washroom ? 'yes' : 'no'}</p>
+          </div>
+
+          <div className="iconText">
+            <FaGlobe />
+            <a href={pub.website} target="_blank" rel="noopener noreferrer" className="website-link">
+              {pub.website}
+            </a>
+          </div>
+
+          <p className="description">{pub.outDoorSeating}</p>
+          <div className="iconText">
+            <RxAccessibility />
+            <p className="description">Accessible Seating: {pub.accessibility.accessibleSeating ? 'yes' : 'no'}</p>
           </div>
           <div className="iconText">
-            <GoLocation />
-            <p className="location" >{correctEncoding(pub.location)}</p>
+            <RxAccessibility />
+            <p className="description">Accessible Entrance: {pub.accessibility.accessibleEntrance ? 'yes' : 'no'}</p>
           </div>
-          <p className="description">{pub.description}</p>
-
-          {expandedPubId === pub.id && (
-            <div className="expandedInfo">
-              <div className="iconText">
-                <FaToilet />
-                <p className="description">{pub.washroom ? 'yes' : 'no'}</p>
-              </div>
-
-              <div className="iconText">
-                <FaGlobe />
-                <a href={pub.website} target="_blank" rel="noopener noreferrer" className="website-link">
-                  {pub.website}
-                </a>
-              </div>
-
-              <p className="description">{pub.outDoorSeating}</p>
-              <div className="iconText">
-                <RxAccessibility />
-                <p className="description">Accessible Seating: {pub.accessibility.accessibleSeating ? 'yes' : 'no'}</p>
-              </div>
-              <div className="iconText">
-                <RxAccessibility />
-                <p className="description">Accessible Entrance: {pub.accessibility.accessibleEntrance ? 'yes' : 'no'}</p>
-              </div>
-              <div className="iconText">
-                <RxAccessibility />
-                <p className="description">Accessible Parking: {pub.accessibility.accessibleParking ? 'yes' : 'no'}</p>
-              </div>
-            </div>
-          )}
-
-          <button onClick={() => toggleExpanded(pub.id)} className="button">
-            {expandedPubId === pub.id ? 'Show Less' : 'Show More'}
-          </button>
-
+          <div className="iconText">
+            <RxAccessibility />
+            <p className="description">Accessible Parking: {pub.accessibility.accessibleParking ? 'yes' : 'no'}</p>
+          </div>
         </div>
-    );
+      )}
+
+      <button onClick={() => toggleExpanded(pub.id)} className="button">
+        {expandedPubId === pub.id ? 'Show Less' : 'Show More'}
+      </button>
+
+    </div>
+  );
 };
