@@ -3,15 +3,22 @@ import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signout } from "./redux/slices/authSlice";
+import { useLogoutMutation } from "./redux/slices/authApiSlice";
 
 export default function DropdownMenu() {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const loginStatus = localStorage.getItem('accessToken');
+    const [logout, { isLoading }] = useLogoutMutation();
 
-    const logout = () => {
-        dispatch(signout());
-        setShowMenu(false);
+    const handelLogout = async () => {
+        try {
+            await logout().unwrap()
+            dispatch(signout());
+            setShowMenu(false);
+        } catch (err) {
+            console.log(err)
+        }
     };
 
     return (
@@ -40,10 +47,10 @@ export default function DropdownMenu() {
                         <>
                             <div className="py-1" role="none">
                                 <a href="#" className="menu-item" role="menuitem" tabIndex="-1" id="menu-item-2">Reviews</a>
-                                <a href="#" className="menu-item" role="menuitem" tabIndex="-1" id="menu-item-3">Visited Pubs</a>
+                                <Link to="/visitedPubs" className="menu-item" role="menuitem" tabIndex="-1" id="visitedPubs" onClick={() => setShowMenu(!showMenu)}>Visited Pubs </Link>
                             </div>
                             <div className="py-1" role="none">
-                                <p href="#" className="menu-item cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-6" onClick={() => logout()}>Logout</p>
+                                <p href="#" className="menu-item cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-6" onClick={() => handelLogout()}>Logout</p>
                             </div>
                         </>
                     ) : (

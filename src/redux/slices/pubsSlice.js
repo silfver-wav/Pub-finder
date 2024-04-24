@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import mockData from "./mockData";
 import axios from "axios";
 
 const initialState = {
   pubs: [],
+  visitedPubs: [],
   status: "ideal",
   error: '',
 };
@@ -16,7 +16,27 @@ export const fetchPubs = createAsyncThunk("pubs/fetchPubs", async ({ lat, lng, r
         'Content-Type': 'application/json;charset=UTF-8'
       }
     });
-    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+});
+
+export const fetchVisitedPubs = createAsyncThunk("user/getVisitedPubs", async () => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    console.log(token);
+    if (token == null) {
+      throw Error("no access Token");
+    }
+    const response = await axios.get(`http://localhost:8080/user/getVisitedPubs`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -39,6 +59,18 @@ const pubsSlice = createSlice({
         state.pubs = action.payload;
       })
       .addCase(fetchPubs.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+
+      .addCase(fetchVisitedPubs.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchVisitedPubs.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.visitedPubs = action.payload;
+      })
+      .addCase(fetchVisitedPubs.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });
