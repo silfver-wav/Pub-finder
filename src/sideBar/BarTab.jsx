@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { focusOnPub } from "../redux/slices/pubSlice";
 import { useVisitedPubMutation } from "../redux/slices/pubSliceApi";
@@ -14,10 +14,10 @@ import { MdOutlineBeenhere } from "react-icons/md";
 
 import "./SideBar.css";
 
-export default function BarTab({ pub }) {
+export default function BarTab({ pub, user=false, visited }) {
     const dispatch = useDispatch();
     const [expandedPubId, setExpandedPubId] = useState(null);
-    const [visited, setVisited] = useState(false);
+    const [hasVisited, setHasVisited] = useState(false);
     const [visitedPub, { isLoading }] = useVisitedPubMutation();
   
     const toggleExpanded = (pubId) => {
@@ -28,7 +28,10 @@ export default function BarTab({ pub }) {
       setVisited(!visited);
       if (visited) {
         try {
-          await visitedPub(pub.id).unwrap()
+          await visitedPub({
+            pubId: pub.id,
+            username: user
+          }).unwrap();
         } catch (err) {
           console.log(err)
         }
@@ -37,22 +40,29 @@ export default function BarTab({ pub }) {
         console.log("not visited pub");
       }
     }
+
+    useEffect(() => {
+      setHasVisited(visited); // Update hasVisited when visited changes
+    }, [visited]);
+
+    // console.log("pub: ", pub.name , " visited: ", hasVisited)
   
     return (
       <div
-        className="barTab"
+        className="text-white m-2 my-4 p-4 cursor-pointer flex flex-col items-start rounded-lg bg-opacity-10 bg-white transition duration-300 ease-in-out side-bar"
         onClick={() => dispatch(focusOnPub([pub.lat, pub.lng]))}
         key={pub.id}
       >
         <p className="name">{correctEncoding(pub.name)}</p>
         <div className="flex justify-between">
           <p className="price">{pub.price}</p>
-          { visited ? 
-            <MdOutlineBeenhere size={25} className="ml-40 text-cyan-400 hover:text-white" onClick={() => handleVisitedPub()}/>
-          :
-            <MdOutlineBeenhere size={25} className="ml-40 hover:text-cyan-400" onClick={() => handleVisitedPub()}/>
-          }
-          
+          {user && (
+              hasVisited ? 
+                <MdOutlineBeenhere size={25} className="ml-40 text-cyan-400 hover:text-white" onClick={handleVisitedPub}/>
+              :
+                <MdOutlineBeenhere size={25} className="ml-40 hover:text-cyan-400" onClick={handleVisitedPub}/>
+          )}
+
         </div>
         <div className="iconText">
           <IoTimeOutline />
@@ -62,10 +72,11 @@ export default function BarTab({ pub }) {
           <GoLocation />
           <p className="location" >{correctEncoding(pub.location)}</p>
         </div>
-        <p className="description">{pub.description}</p>
   
         {expandedPubId === pub.id && (
           <div className="expandedInfo">
+          <p className="description">{pub.description}</p>
+
             <div className="iconText">
               <FaToilet />
               <p className="description">{pub.washroom ? 'yes' : 'no'}</p>

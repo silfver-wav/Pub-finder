@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import mockData from "./mockData";
 import axios from "axios";
 
 const initialState = {

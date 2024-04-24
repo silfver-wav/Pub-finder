@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 import Cookies from 'js-cookie'
 
 const initialState = {
@@ -12,12 +11,11 @@ const authSlice = createSlice({
   reducers: {
     setCredentials(state, action) {
       const { accessToken, refreshToken } = action.payload.response
-      state.user = action.payload.user
+      localStorage.setItem("user", action.payload.user);
       localStorage.setItem("accessToken", accessToken);
       Cookies.set('refresher-cookie', refreshToken, { expires: 1})
     },
     signout(state, action) {
-      state.user = null
       localStorage.clear();
       Cookies.remove('refresher-cookie')
     },

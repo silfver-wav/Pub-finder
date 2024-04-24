@@ -12,8 +12,8 @@ export const pubApiSlice = apiSlice.injectEndpoints({
             })
         }),
         visitedPub: builder.mutation({
-            query: (pubId) => ({
-                url: `/pub/visited/${pubId}`,
+            query: ({ pubId, username }) => ({
+                url: `/pub/visited/${pubId}/${username}`,
                 method: 'PUT',
                 headers: {
                   "Content-Type": "application/json",

@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPubs } from "../redux/slices/pubsSlice";
+import { setPubs } from "../redux/slices/pubsSlice";
 import "./Map.css";
 import "leaflet/dist/leaflet.css";
 import {
@@ -17,6 +17,8 @@ import marker from "../../content/beer (1).png";
 import marker2 from "../../content/position (1).png";
 import here from "../../content/time.png";
 import correctEncoding from "../utils/correctEncoding";
+import { useGetPubsQuery } from "../redux/slices/pubsApiSlice";
+import { skipToken } from '@reduxjs/toolkit/query';
 
 const beerIcon = new Icon({
   iconUrl: marker,
@@ -24,31 +26,49 @@ const beerIcon = new Icon({
 });
 
 export default function Map() {
+  const dispatch = useDispatch()
   const layer = useSelector((state) => state.layer.realisticMap);
-  const pubs = useSelector((state) => state.pubs.pubs);
-  const dispatch = useDispatch();
+
+  const [geocode, setGecode] = useState({
+    latitude: null,
+    longitude: null,
+    radius: null,
+  })
+  
+  useEffect(() => {
+    async function getLocation() {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+        // const latitude = position.coords.latitude
+        // const longitude = position.coords.longitude
+
+        const latitude = 59.31406275108505
+        const longitude = 18.071794637357076
+
+        setGecode({
+          latitude: latitude,
+          longitude: longitude,
+          radius: 1,
+        })
+
+      } catch (error) {
+        console.log("Unable to retrieve user location:", error);
+      }
+    }
+    getLocation();
+  }, []);
+  
+  const { data: pubs = [], isSuccess } = useGetPubsQuery(geocode.latitude ? geocode : skipToken)
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error);
-    } else {
-      console.log("Geolocation not supported");
+    if (isSuccess && pubs) {
+      dispatch(setPubs(pubs));
     }
+  }, [isSuccess, pubs]);
 
-    function success(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-      // dispatch(fetchPubs({ lat: latitude, lng: longitude, radius: 1 }));
-      dispatch(fetchPubs({ lat: 59.31406275108505, lng: 18.071794637357076, radius: 1 }));
-    }
-    
-    function error() {
-      console.log("Unable to retrieve your location");
-    }
-  }, []);
 
-  
   return (
     <MapContainer center={[59.31508, 18.072309]} zoom={16} zoomControl={false}>
       {renderTileLayer(layer)}

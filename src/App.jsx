@@ -11,8 +11,8 @@ import VisitedPubs from "./visitedPubs/VisitedPubs";
 export default function App() {  
   return (
     <div>
-      <StartPage />
       <Routes>
+        <Route path="/" element={<StartPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/visitedPubs" element={<VisitedPubs />} />

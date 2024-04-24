@@ -3,8 +3,8 @@ import { apiSlice } from "./apiSlice";
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getPubs: builder.query({
-            query: ({ lat, lng, radius }) => ({
-                url: `/pub/getPubs/${lat}/${lng}/${radius}`,
+            query: (geocode) => ({
+                url: `/pub/getPubs/${geocode.latitude}/${geocode.longitude}/${geocode.radius}`,
                 method: 'GET',
                 headers: {
                   "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             })
         }),
         getVisitedPubs: builder.query({
-            query: ({ username }) => ({
+            query: (username) => ({
                 url: `/user/getVisitedPubs/${username}`,
                 method: 'GET',
                 headers: {

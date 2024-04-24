@@ -1,18 +1,12 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchVisitedPubs } from "../redux/slices/pubsSlice";
+import { useGetVisitedPubsQuery } from "../redux/slices/pubsApiSlice";
 import BarTab from "../sideBar/BarTab";
+import { skipToken } from "@reduxjs/toolkit/query";
+import DropdownMenu from "../DropdownMenu";
+import "../searchBar/SearchResults.css"
 
 export default function VisitedPubs() {
-    const dispatch = useDispatch();
-    let visitedPubs = useSelector((state) => state.pubs.visitedPubs)
-
-    useEffect(() => {
-        console.log(visitedPubs)
-        if (visitedPubs.length == 0 ) {
-            dispatch(fetchVisitedPubs());
-        }
-    });
+    const user = localStorage.getItem("user");
+    const { data: visitedPubs, isSuccess } = useGetVisitedPubsQuery(user ? user : skipToken)
 
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
@@ -21,16 +15,19 @@ export default function VisitedPubs() {
     };
 
     return (
-        <div className="absolute inset-0 z-40 w-full h-full bg-slate-400 ml">
-            <div className="ml-20 mt-20">
-                { visitedPubs.map((pub) => (
-                    <div>
-                        <BarTab key={pub.id} pub={pub.pubDTO}/>
-                        <p>You visited this pub: {formatTimestamp(pub.visitedDate)}</p>
+        <div className="bg-slate-800 overflow-y-auto h-full">
+            <DropdownMenu />
+            <h2 className="mb-5 text-center text-4xl font-bold tracking-tight text-white pt-10">Vistied Pubs</h2>
+            <div className="ml-4 mr-4 mt-10 grid grid-cols-4 gap-4 bg-slate-800">
+                { isSuccess && visitedPubs.map((pub) => (
+                    <div className="flex justify-center bg-slate-900 rounded-lg">
+                        <div className="w-full">
+                            <BarTab key={pub.id} pub={pub.pubDTO} user={user}/>
+                            <p className="text-white">You visited this pub: {formatTimestamp(pub.visitedDate)}</p>
+                        </div>
                     </div>
                 ))}
             </div>
-
         </div>
     )
 }
