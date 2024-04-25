@@ -10,7 +10,7 @@ import {BrowserView, MobileView} from 'react-device-detect';
 import BottomBar from './bottomBar/bottomBar';
 import SearchResults from './searchBar/searchResults';
 import DropdownMenu from "./DropdownMenu";
-import LoginForm from "./auth/LoginForm";
+
 
 export default function StartPage() {
   const dispatch = useDispatch();
@@ -19,11 +19,12 @@ export default function StartPage() {
     <>
       <DropdownMenu />
       <SearchBar />
+      <SideBar />
       <SearchResults />
       <MdOutlineLayers
         size={30}
         onClick={() => dispatch(toggleLayer())}
-        className="fixed bottom-2 left-2 cursor-pointer z-50 text-white"
+        className="fixed bottom-2 left-2 cursor-pointer z-30 text-white"
         />
       <Map className="z-10" />
 

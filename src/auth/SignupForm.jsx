@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AuthContainer from "./AuthContainer";
-import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
+import { useSignupMutation } from "../redux/slices/authApiSlice";
+import { setCredentials } from "../redux/slices/authSlice";
 
 export default function SignupForm() {
   const dispatch = useDispatch();
-  const loginStatus  = useSelector(state => state.auth.status);
+  const [signup, { isLoading }] = useSignupMutation();
   let navigate = useNavigate()
-
+  const [formError, setFormError] = useState()
   const [formInput, setFormInput] = useState({
     firstname: "",
     lastname: "",
@@ -20,16 +21,9 @@ export default function SignupForm() {
     sucessMsg: "",
   });
 
-  const [formError, setFormError] = useState({
-    ErrorMsg: "",
-  })
-
   const handleUserInput = (name, value) => {
     if (name === "username") {
       // check in backend if username exists
-      console.log("check up");
-    } else if (name == "email" && validateEmail(value)) {
-      // check in backend if email exists
       console.log("check up");
     }
 
@@ -39,63 +33,46 @@ export default function SignupForm() {
     });
   };
 
-  const validateEmail = (email) => {
-    return email.match(
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-  };
-
-  const validateFormInput = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("here")
-
-    let inputError = {
-      email: "",
-      password: "",
-      confirmPassword: "",
-    };
 
     if (formInput.password != formInput.confirmPassword) {
-      setFormError({
-        ...inputError,
-        ErrorMsg: "Password and confirm password should be the same.",
-      });
+      setFormError("Password and confirm password should be the same.");
       return;
     }
 
-    dispatch(signup(formInput))
-  }
+    try {
+      const response = await signup(formInput).unwrap()
+      console.log(response)
+      const user = formInput.username
+      console.log("user: ", user)
+      dispatch(setCredentials({ response, user }));
 
-  useEffect(() => {
-    if (loginStatus === 'succeeded') {
-        setFormInput({
-          firstname: "",
-          lastname: "",
-          username: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-          sucessMsg: "",
-        });
-        navigate('/')
-    } else if (loginStatus === 'failed') {
-      setFormError({
-        ErrorMsg: "signup failed",
-      })
+      setFormInput({
+        firstname: "",
+        lastname: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        sucessMsg: "",
+      });
+      navigate('/')
+    } catch (err) {
+      setFormError("Signup Failed")
     }
-  }, [loginStatus]);
-
+  }
 
   return (
     <AuthContainer title="Sign Up">
-        <form className="flex flex-col" onSubmit={validateFormInput}>
+        <form className="flex flex-col" onSubmit={handleSubmit}>
           <div className="flex space-x-4 mb-4">
             <input
               id="fistname"
-              name="fistname"
+              name="firstname"
               type="text"
               placeholder="Fistname"
-              autoComplete="fistname"
+              autoComplete="firstname"
               required
               className="input-field-name"
               onChange={({ target }) => { handleUserInput(target.name, target.value) }}
@@ -152,7 +129,7 @@ export default function SignupForm() {
             className="input-field"
             onChange={({ target }) => { handleUserInput(target.name, target.value) }}
           />
-          <p className="text-[#ff0015] mb-2 text-center " >{formError.ErrorMsg}</p>
+          <p className="text-[#ff0015] mb-2 text-center " >{formError}</p>
 
           <button
             type="submit"

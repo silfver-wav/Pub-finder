@@ -29,7 +29,7 @@ export default function SearchBar() {
   };
 
   return (
-<div className="bg-gray-900 w-1/2 h-10 rounded-lg px-6 shadow-md flex items-center absolute top-4 left-1/2 transform -translate-x-1/2 z-50 ">
+<div className="bg-gray-900 w-1/2 h-10 rounded-lg px-6 shadow-md flex items-center absolute top-4 left-1/2 transform -translate-x-1/2 z-40 ">
   <input
     type="text"
     placeholder="Search..."

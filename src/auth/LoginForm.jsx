@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AuthContainer from "./AuthContainer";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-
+import { useLoginMutation } from "../redux/slices/authApiSlice";
+import { setCredentials } from "../redux/slices/authSlice";
 
 export default function LoginForm(){
-    const dispatch = useDispatch();
-    const loginStatus  = useSelector(state => state.auth.status);
+    const dispatch = useDispatch()
     let navigate = useNavigate()
-
-
+    const [login, { isLoading }] = useLoginMutation();
+    const [formError, setFormError] = useState()
     const [formInput, setFormInput] = useState({
-        email: "",
+        username: "",
         password: "",
     });
-
-    const [formError, setFormError] = useState({
-        ErrorMsg: "",
-    })
 
     const handleUserInput = (name, value) => {
         setFormInput({
@@ -28,36 +23,33 @@ export default function LoginForm(){
         });
     };
 
-    const validateFormInput = (event) => {
+    const handleSubmit = async (event) => {
       event.preventDefault();
-      
-      dispatch(login(formInput));
-    }
 
-    useEffect(() => {
-      if (loginStatus === 'succeeded') {
-          // Clear the form after successful login
-          setFormInput({
-              email: "",
-              password: "",
-          });
-          navigate('/')
-      } else if (loginStatus === 'failed') {
-        setFormError({
-          ErrorMsg: "login failed",
-        })
+      try {
+        const response = await login(formInput).unwrap()
+        const user = formInput.username
+        dispatch(setCredentials({ response, user }));
+
+        setFormInput({
+          username: "",
+          password: "",
+        });
+        navigate('/')
+      } catch (err) {
+        setFormError("Login Failed")
       }
-    }, [loginStatus]);
+    }
 
     return (
       <AuthContainer title="Login to your account">
-        <form className="flex flex-col" onSubmit={validateFormInput}>
+        <form className="flex flex-col" onSubmit={handleSubmit}>
           <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Email Address"
-            autoComplete="email"
+            id="username"
+            name="username"
+            type="username"
+            placeholder="Username"
+            autoComplete="username"
             required
             className="input-field"
             onChange={({ target }) => { handleUserInput(target.name, target.value) }}
@@ -71,7 +63,7 @@ export default function LoginForm(){
             className="input-field"
             onChange={({ target }) => { handleUserInput(target.name, target.value) }}
           />
-          <p className="text-[#ff0015] mb-2 text-center " >{formError.ErrorMsg}</p>
+          <p className="text-[#ff0015] mb-2 text-center " >{formError}</p>
 
 
           <button

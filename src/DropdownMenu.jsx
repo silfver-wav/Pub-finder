@@ -1,24 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signout } from "./redux/slices/authSlice";
+import { useLogoutMutation } from "./redux/slices/authApiSlice";
 
 export default function DropdownMenu() {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
-    const loginStatus = localStorage.getItem('accessToken');
+    const user = localStorage.getItem("user");
+    const [logout, { isLoading }] = useLogoutMutation();
 
-    const logout = () => {
-        dispatch(signout());
-        setShowMenu(false);
+    const handelLogout = async () => {
+        try {
+            await logout().unwrap()
+            dispatch(signout());
+            setShowMenu(false);
+        } catch (err) {
+            console.log(err)
+        }
     };
 
     return (
         <div className="absolute top-0 left-0 z-50">
             <div>
                 <button type="button" 
-                    className="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold shadow-sm"
+                    className="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold"
                     id="menu-button" 
                     aria-expanded="true" 
                     aria-haspopup="true"
@@ -36,14 +43,17 @@ export default function DropdownMenu() {
                     aria-labelledby="menu-button"
                     tabIndex="-1"
                 >
-                    {loginStatus ? (
+                    {user ? (
                         <>
                             <div className="py-1" role="none">
-                                <a href="#" className="menu-item" role="menuitem" tabIndex="-1" id="menu-item-2">Reviews</a>
-                                <a href="#" className="menu-item" role="menuitem" tabIndex="-1" id="menu-item-3">Visited Pubs</a>
+                                <Link to="/" className="menu-item" role="menuitem" tabIndex="-1" id="map">Map</Link>
                             </div>
                             <div className="py-1" role="none">
-                                <p href="#" className="menu-item cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-6" onClick={() => logout()}>Logout</p>
+                                <a href="#" className="menu-item" role="menuitem" tabIndex="-1" id="menu-item-2">Reviews</a>
+                                <Link to="/visitedPubs" className="menu-item" role="menuitem" tabIndex="-1" id="visitedPubs" onClick={() => setShowMenu(!showMenu)}>Visited Pubs </Link>
+                            </div>
+                            <div className="py-1" role="none">
+                                <p href="#" className="menu-item cursor-pointer" role="menuitem" tabIndex="-1" id="menu-item-6" onClick={() => handelLogout()}>Logout</p>
                             </div>
                         </>
                     ) : (
