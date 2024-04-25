@@ -22,7 +22,7 @@ export default function VisitedPubs() {
                 { isSuccess && visitedPubs.map((pub) => (
                     <div className="flex justify-center bg-slate-900 rounded-lg">
                         <div className="w-full">
-                            <BarTab key={pub.id} pub={pub.pubDTO} user={user}/>
+                            <BarTab key={pub.id} pub={pub.pubDTO} user={user} visited={true}/>
                             <p className="text-white">You visited this pub: {formatTimestamp(pub.visitedDate)}</p>
                         </div>
                     </div>

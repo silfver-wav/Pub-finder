@@ -20,10 +20,20 @@ export const pubApiSlice = apiSlice.injectEndpoints({
                 },
             })
         }),
+        unVisitPub: builder.mutation({
+            query: ({ pubId, username }) => ({
+                url: `/pub/visited/${pubId}/${username}`,
+                method: 'DELETE',
+                headers: {
+                  "Content-Type": "application/json",
+                },
+            })
+        }),
     })
 })
 
 export const {
     useGetPubQuery,
-    useVisitedPubMutation
+    useVisitedPubMutation,
+    useUnVisitPubMutation,
 } = apiSlice

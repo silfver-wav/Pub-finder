@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { focusOnPub } from "../redux/slices/pubSlice";
 import { useVisitedPubMutation } from "../redux/slices/pubSliceApi";
@@ -11,41 +11,50 @@ import { GoLocation } from "react-icons/go";
 import { FaGlobe, FaToilet } from "react-icons/fa";
 import { RxAccessibility } from "react-icons/rx";
 import { MdOutlineBeenhere } from "react-icons/md";
+import { useUnVisitPubMutation } from "../redux/slices/pubSliceApi";
 
 import "./SideBar.css";
 
-export default function BarTab({ pub, user=false, visited }) {
+export default function BarTab({ pub, user=false, visited, refetch}) {
     const dispatch = useDispatch();
     const [expandedPubId, setExpandedPubId] = useState(null);
     const [hasVisited, setHasVisited] = useState(false);
-    const [visitedPub, { isLoading }] = useVisitedPubMutation();
+    const [visitedPub] = useVisitedPubMutation();
+    const [unVisitPub] = useUnVisitPubMutation();
   
     const toggleExpanded = (pubId) => {
         setExpandedPubId(expandedPubId === pubId ? null : pubId);
     };
 
-    const handleVisitedPub = async () => {
-      setVisited(!visited);
-      if (visited) {
-        try {
-          await visitedPub({
-            pubId: pub.id,
-            username: user
-          }).unwrap();
-        } catch (err) {
-          console.log(err)
-        }
+    const handleVisitedPub = useCallback(async () => {
+      if (hasVisited) {
+          try {
+              await unVisitPub({
+                  pubId: pub.id,
+                  username: user
+              }).unwrap()
+          } catch (err) {
+              console.log(err)
+          }
       } else {
-        // dispatch(notVisitedPub(pub.id));
-        console.log("not visited pub");
+          try {
+              await visitedPub({
+                  pubId: pub.id,
+                  username: user
+              }).unwrap();
+          } catch (err) {
+              console.log(err)
+          }
       }
-    }
+      setHasVisited(!hasVisited);
+      // force re-fetches the data
+      refetch()
+    }, [visitedPub, unVisitPub, pub.id, hasVisited, setHasVisited, user, refetch]);
+
 
     useEffect(() => {
-      setHasVisited(visited); // Update hasVisited when visited changes
+      setHasVisited(visited);
     }, [visited]);
-
-    // console.log("pub: ", pub.name , " visited: ", hasVisited)
   
     return (
       <div

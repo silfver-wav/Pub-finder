@@ -11,7 +11,7 @@ export default function SideBar() {
   const user = localStorage.getItem("user");
   const [getVisitedPubs, setGetVisitedPubs] = useState(false);
 
-  const { data: visitedPubs, isSuccess } = useGetVisitedPubsQuery(getVisitedPubs ? user : skipToken)
+  const { data: visitedPubs, refetch } = useGetVisitedPubsQuery(getVisitedPubs ? user : skipToken)
 
 
   function isEmpty(obj) {
@@ -37,17 +37,16 @@ export default function SideBar() {
     return visitedPubs.some((visitedPub) => visitedPub.pubDTO.id === pub.id);
   };
   
-
   return (
     <div className="bg-gray-900 rounded-lg p-2 absolute right-2 z-40 scrollbar-thin overflow-y-auto sm:w-50 md:w-72 lg:w-96 h-5/6 top-20">
         {!isEmpty(searchedPub) &&
         (<>
-            <BarTab key={searchedPub.id} pub={searchedPub} user={user} visited={visited(searchedPub)}/>
+            <BarTab key={searchedPub.id} pub={searchedPub} user={user} visited={visited(searchedPub)} refetch={refetch}/>
             <hr />
         </>
         )}
         {pubs.map((pub) => (
-          <BarTab key={pub.id} pub={pub} user={user} visited={visited(pub)}/>
+          <BarTab key={pub.id} pub={pub} user={user} visited={visited(pub)} refetch={refetch}/>
         ))}
     </div>
   );
