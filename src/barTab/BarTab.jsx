@@ -8,12 +8,11 @@ import formatOpeningHoursForToday from "../utils/formatOpeningHoursForToday";
 
 import { IoTimeOutline } from "react-icons/io5";
 import { GoLocation } from "react-icons/go";
-import { FaGlobe, FaToilet } from "react-icons/fa";
-import { RxAccessibility } from "react-icons/rx";
 import { MdOutlineBeenhere } from "react-icons/md";
 import { useUnVisitPubMutation } from "../redux/slices/pubSliceApi";
 
-import "./SideBar.css";
+import Info from "./Info";
+import Reviews from "./Reviews";
 
 export default function BarTab({ pub, user=false, visited, refetch}) {
     const dispatch = useDispatch();
@@ -21,6 +20,8 @@ export default function BarTab({ pub, user=false, visited, refetch}) {
     const [hasVisited, setHasVisited] = useState(false);
     const [visitedPub] = useVisitedPubMutation();
     const [unVisitPub] = useUnVisitPubMutation();
+    const [showInfo, setShowInfo] = useState(false);
+    const [showReviews, setShowReviews] = useState(false);
   
     const toggleExpanded = (pubId) => {
         setExpandedPubId(expandedPubId === pubId ? null : pubId);
@@ -62,9 +63,11 @@ export default function BarTab({ pub, user=false, visited, refetch}) {
         onClick={() => dispatch(focusOnPub([pub.lat, pub.lng]))}
         key={pub.id}
       >
-        <p className="name">{correctEncoding(pub.name)}</p>
+        <p className="font-bold mb-1 text-2xl" >{correctEncoding(pub.name)}</p>
+
         <div className="flex justify-between">
-          <p className="price">{pub.price}</p>
+
+          <p className="text-xl text-left mb-1">{pub.price}</p>
           {user && (
               hasVisited ? 
                 <MdOutlineBeenhere size={25} className="ml-40 text-cyan-400 hover:text-white" onClick={handleVisitedPub}/>
@@ -73,51 +76,68 @@ export default function BarTab({ pub, user=false, visited, refetch}) {
           )}
 
         </div>
-        <div className="iconText">
-          <IoTimeOutline />
-          <p className="time" >{formatOpeningHoursForToday(pub.openingHours)}</p>
+
+        <div className="flex items-center mb-1">
+          <IoTimeOutline size={20} className="mr-1" />
+          <p className="text-md text-left mb-1" >{formatOpeningHoursForToday(pub.openingHours)}</p>
         </div>
-        <div className="iconText">
-          <GoLocation />
+        <div className="flex items-center mb-1">
+          <GoLocation size={30} className="mr-1" />
           <p className="location" >{correctEncoding(pub.location)}</p>
         </div>
-  
-        {expandedPubId === pub.id && (
-          <div className="expandedInfo">
-          <p className="description">{pub.description}</p>
 
-            <div className="iconText">
-              <FaToilet />
-              <p className="description">{pub.washroom ? 'yes' : 'no'}</p>
-            </div>
-  
-            <div className="iconText">
-              <FaGlobe />
-              <a href={pub.website} target="_blank" rel="noopener noreferrer" className="website-link">
-                {pub.website}
-              </a>
-            </div>
-  
-            <p className="description">{pub.outDoorSeating}</p>
-            <div className="iconText">
-              <RxAccessibility />
-              <p className="description">Accessible Seating: {pub.accessibility.accessibleSeating ? 'yes' : 'no'}</p>
-            </div>
-            <div className="iconText">
-              <RxAccessibility />
-              <p className="description">Accessible Entrance: {pub.accessibility.accessibleEntrance ? 'yes' : 'no'}</p>
-            </div>
-            <div className="iconText">
-              <RxAccessibility />
-              <p className="description">Accessible Parking: {pub.accessibility.accessibleParking ? 'yes' : 'no'}</p>
-            </div>
-          </div>
-        )}
-  
-        <button onClick={() => toggleExpanded(pub.id)} className="button">
-          {expandedPubId === pub.id ? 'Show Less' : 'Show More'}
-        </button>
-  
+        <div className="flex justify-center">
+          <button 
+            className="text-white bg-transparent border-none transition-colors hover:text-cyan-400 hover:bg-gray-700 px-4 py-2 rounded mr-2" 
+            onClick={() => {
+              setShowInfo(!showInfo);
+              setShowReviews(false);
+            }}
+          >
+            More Info
+          </button>
+
+          <button 
+            className="text-white bg-transparent border-none transition-colors hover:text-cyan-400 hover:bg-gray-700 px-4 py-2 rounded ml-2" 
+            onClick={() => {
+              setShowReviews(!showReviews);
+              setShowInfo(false);
+            }}
+          >
+            Reviews
+          </button>
+          
+        </div>
+
+        {showInfo && <Info pub={pub} />}
+        {showReviews && <Reviews pubId={pub.id} />}
+
       </div>
     );
 }
+
+/*
+  {expandedPubId === pub.id && (
+    <div className="flex justify-center">
+      <button 
+        className="text-white bg-transparent border-none transition-colors hover:text-cyan-400 hover:bg-gray-700 px-4 py-2 rounded mr-2" 
+        onClick={() => setBottomDiv("Info")}
+      >
+        More Info
+      </button>
+      
+      <button 
+        className="text-white bg-transparent border-none transition-colors hover:text-cyan-400 hover:bg-gray-700 px-4 py-2 rounded ml-2" 
+        onClick={() => setBottomDiv("Reviews")}
+      >
+        Reviews
+      </button>
+
+      </div>
+    )}
+
+
+    <button onClick={() => toggleExpanded(pub.id)} className="text-white bg-transparent block mx-auto border-none transition-colors hover:text-cyan-400">
+      {expandedPubId === pub.id ? 'Show Less' : 'Show More'}
+    </button>
+  */

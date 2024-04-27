@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import "./SideBar.css";
 import { useSelector } from "react-redux";
-import BarTab from "./BarTab";
+import BarTab from "../barTab/BarTab";
 import { useGetVisitedPubsQuery } from "../redux/slices/pubsApiSlice";
 import { skipToken } from '@reduxjs/toolkit/query';
 
