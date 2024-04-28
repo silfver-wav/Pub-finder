@@ -110,34 +110,8 @@ export default function BarTab({ pub, user=false, visited, refetch}) {
         </div>
 
         {showInfo && <Info pub={pub} />}
-        {showReviews && <Reviews pubId={pub.id} />}
+        {showReviews && <Reviews pubId={pub.id} pubname={pub.name} />}
 
       </div>
     );
 }
-
-/*
-  {expandedPubId === pub.id && (
-    <div className="flex justify-center">
-      <button 
-        className="text-white bg-transparent border-none transition-colors hover:text-cyan-400 hover:bg-gray-700 px-4 py-2 rounded mr-2" 
-        onClick={() => setBottomDiv("Info")}
-      >
-        More Info
-      </button>
-      
-      <button 
-        className="text-white bg-transparent border-none transition-colors hover:text-cyan-400 hover:bg-gray-700 px-4 py-2 rounded ml-2" 
-        onClick={() => setBottomDiv("Reviews")}
-      >
-        Reviews
-      </button>
-
-      </div>
-    )}
-
-
-    <button onClick={() => toggleExpanded(pub.id)} className="text-white bg-transparent block mx-auto border-none transition-colors hover:text-cyan-400">
-      {expandedPubId === pub.id ? 'Show Less' : 'Show More'}
-    </button>
-  */
