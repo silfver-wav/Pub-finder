@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { signout, setCredentials } from "./authSlice";
+import { signout, setCredentials } from "../authSlice";
 import Cookies from 'js-cookie'
 
 const baseQuery = fetchBaseQuery({
@@ -15,11 +15,15 @@ const baseQuery = fetchBaseQuery({
 })
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
+    if (args.url.includes('null')) { // skipToken is not working in map.jsx so this is needed
+      return {data: []}
+    }
     let result = await baseQuery(args, api, extraOptions)
     if (result?.error?.status == 403) {
         console.log('sending refresh token')
         // send refresh token
         const refreshToken = Cookies.get('refresher-cookie')
+        /*
         const refreshResult = await baseQuery('user/refreshToken', api, {
             ...extraOptions,
             method: 'PUT',
@@ -40,6 +44,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         } else {
             api.dispatch(signout())
         }
+        */
     } 
     return result
 }

@@ -1,25 +1,16 @@
 import { useState } from "react";
-import { skipToken } from '@reduxjs/toolkit/query';
 import { Rating, Button, Avatar, Typography } from "@material-tailwind/react";
 import Review from "./Review";
 import { MdOutlineReviews } from "react-icons/md";
+import { useGetReviewsForPubQuery } from "../redux/slices/apiSlices/pubApiSlice";
 
 export default function Reviews({ pubId, pubname }) {
     const [reviewId, setReviewId] = useState();
-    const reviews = [
-        {id: 1, username: "Mo Salah", review: "this is a great place"}, 
-        {id: 2, username: "Mo Salah", review: "this is a great place"},
-        {id: 3, username: "Mo Salah", review: "this is a great place"},
-        {id: 4, username: "Mo Salah", review: "this is a great place"}, 
-        {id: 5, username: "Mo Salah", review: "this is a great place"},
-        {id: 6, username: "Mo Salah", review: "this is a great place"},
-    ];
-    // const { data: reviews, refetch } = useGetReviewsPubQuery(getVisitedPubs ? user : skipToken)
+    const { data: reviews = [] } = useGetReviewsForPubQuery(pubId)
 
     const [open, setOpen] = useState(false);
  
     const handleOpen = () => setOpen(!open);
-
 
     return (
         <div className="w-full flex flex-col">
@@ -29,8 +20,7 @@ export default function Reviews({ pubId, pubname }) {
                 Write a review
             </Button>
 
-
-            {reviews.map((review, index) => (
+            {reviews.map((review) => (
                 <div key={review.id}>
                     <div className="flex items-center gap-4 my-1">
                         <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" />
@@ -49,10 +39,7 @@ export default function Reviews({ pubId, pubname }) {
                     }
 
                     <Typography variant="paragraph" className="bg-gray-800 rounded-lg my-2 p-2">
-                        Material Tailwind is an easy to use components library for Tailwind CSS
-                        and Material Design. It provides a simple way to customize your
-                        components, you can change the colors, fonts, breakpoints and everything
-                        you need.
+                        {review.review}
                     </Typography>
 
                     <Button 
@@ -76,6 +63,7 @@ export default function Reviews({ pubId, pubname }) {
 
             <Review
                 pubname={pubname}
+                pubId={pubId}
                 isOpen={open}
                 onClose={handleOpen}
             />

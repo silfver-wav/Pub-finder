@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthContainer from "./AuthContainer";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { useLoginMutation } from "../redux/slices/authApiSlice";
+import { useLoginMutation } from "../redux/slices/apiSlices/authApiSlice";
 import { setCredentials } from "../redux/slices/authSlice";
 
 export default function LoginForm(){

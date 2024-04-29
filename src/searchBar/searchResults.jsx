@@ -4,7 +4,7 @@ import { setPub } from "../redux/slices/pubSlice";
 import { clearSearchResults } from "../redux/slices/searchSlice";
 import correctEncoding from "../utils/correctEncoding";
 import './SearchResults.css'
-import { useGetPubQuery } from "../redux/slices/pubSliceApi";
+import { useGetPubQuery } from "../redux/slices/apiSlices/pubApiSlice";
 
 export default function SearchResults() {
   const dispatch = useDispatch();

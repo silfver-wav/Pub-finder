@@ -6,7 +6,7 @@ import { MdOutlineReviews, MdOutlineBeenhere } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "./redux/slices/authSlice";
-import { useLogoutMutation } from "./redux/slices/authApiSlice";
+import { useLogoutMutation } from "./redux/slices/apiSlices/authApiSlice";
 import {
     IconButton,
     SpeedDial,

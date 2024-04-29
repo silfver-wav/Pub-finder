@@ -1,4 +1,4 @@
-import { useGetVisitedPubsQuery } from "../redux/slices/pubsApiSlice";
+import { useGetVisitedPubsQuery } from "../redux/slices/apiSlices/pubApiSlice";
 import BarTab from "../barTab/BarTab";
 import { skipToken } from "@reduxjs/toolkit/query";
 import DropdownMenu from "../DropdownMenu";

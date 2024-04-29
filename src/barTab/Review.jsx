@@ -8,11 +8,11 @@ import {
     Slider,
     Textarea,
     Rating
-  } from "@material-tailwind/react";
+} from "@material-tailwind/react";
+import { useReviewMutation } from "../redux/slices/apiSlices/reviewApiSlice";
 
-
-export default function Review({ pubname, isOpen, onClose }) {
-    const [reviews, setReviews] = useState("");
+export default function Review({ pubname, pubId, isOpen, onClose }) {
+    const [reviewPub] = useReviewMutation();
     const [reviewInput, setReviewInput] = useState({
         rating: null,
         toiletsRating: null,
@@ -20,7 +20,7 @@ export default function Review({ pubname, isOpen, onClose }) {
         volume: null,
         review: "",
     });
-
+    const username = localStorage.getItem("user");
 
     const handleClose = () => {
         setReviewInput({
@@ -71,9 +71,18 @@ export default function Review({ pubname, isOpen, onClose }) {
     };
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(reviewInput)
-        onClose();
+        try {
+            await reviewPub({
+                review: reviewInput,
+                pubId: pubId,
+                username: username
+            })
+            handleClose()
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -123,21 +132,28 @@ export default function Review({ pubname, isOpen, onClose }) {
                     color="blue"
                     size="md"
                         defaultValue={50} 
-                        onChange={(value) => setVolumeLevel(value)}/>
+                        onChange={(value) => setVolumeLevel(value)}
+                    />
                 </div>
 
                 <Textarea 
                     color="gray" 
                     label="Review" 
                     className="text-white"
-                    onChange={(text) => handleUserInput("review", text)} 
+                    // onChange={(text) => handleUserInput("review", text)} 
+                    onChange={(e) => {               
+                        setReviewInput({
+                            ...reviewInput,
+                            "review": e.target.value,
+                        });
+                     }}
                 />
             </DialogBody>
             <DialogFooter>
                 <Button
                     variant="text"
                     color="red"
-                    onClick={() => handleSubmit()}
+                    onClick={() => handleClose()}
                     className="mr-1"
                 >
                     <span>Cancel</span>

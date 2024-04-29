@@ -4,7 +4,7 @@ import layerReducer from "./slices/layerSlice";
 import pubReducer from "./slices/pubSlice";
 import searchReducer from "./slices/searchSlice";
 import authReducer from "./slices/authSlice";
-import { apiSlice } from "./slices/apiSlice";
+import { apiSlice } from "./slices/apiSlices/apiSlice";
 
 export const store = configureStore({
   reducer: {
