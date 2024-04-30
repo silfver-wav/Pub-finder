@@ -2,7 +2,7 @@ import { React, useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { focusOnPub } from "../redux/slices/pubSlice";
 
-import correctEncoding from "../utils/correctEncoding";
+import formatLocation from "../utils/formatLocation";
 import formatOpeningHoursForToday from "../utils/formatOpeningHoursForToday";
 
 import { IoTimeOutline } from "react-icons/io5";
@@ -13,6 +13,7 @@ import { useVisitMutation } from "../redux/slices/apiSlices/visitApiSlice";
 
 import Info from "./Info";
 import Reviews from "../review/Reviews";
+import correctEncoding from "../utils/correctEncoding";
 
 export default function BarTab({ pub, user=false, visited, refetch}) {
     const dispatch = useDispatch();
@@ -82,8 +83,8 @@ export default function BarTab({ pub, user=false, visited, refetch}) {
           <p className="text-md text-left mb-1" >{formatOpeningHoursForToday(pub.openingHours)}</p>
         </div>
         <div className="flex items-center mb-1">
-          <GoLocation size={30} className="mr-1" />
-          <p className="location" >{correctEncoding(pub.location)}</p>
+          <GoLocation size={20} className="mr-1" />
+          <p className="location" >{formatLocation(pub.location)}</p>
         </div>
 
         <div className="flex justify-center">
