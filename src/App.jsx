@@ -1,5 +1,4 @@
 import { React } from "react";
-import { useDispatch } from "react-redux";
 import SignupForm from './auth/SignupForm';
 import LoginForm from "./auth/LoginForm";
 import './App.css'
@@ -8,8 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import VisitedPubs from "./visitedPubs/VisitedPubs";
 import UserReviews from "./review/UserReviews";
 
-
-export default function App() {  
+export default function App() {
   return (
     <div>
       <Routes>

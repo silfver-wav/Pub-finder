@@ -7,7 +7,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: `/pub/getPubs/${geocode.latitude}/${geocode.longitude}/${geocode.radius}`,
                 method: 'GET',
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
             })
         }),
@@ -16,7 +16,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: `/pub/getPub/${pubId}`,
                 method: 'GET',
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
             })
         }),
@@ -25,7 +25,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: `/pub/reviews/${pubId}`,
                 method: 'GET',
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
             })
         }),
@@ -34,7 +34,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: `/user/reviews/${username}`,
                 method: 'GET',
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
             })
         }),
@@ -43,8 +43,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: `/user/getVisitedPubs/${username}`,
                 method: 'GET',
                 headers: {
-                  "Content-Type": "application/json",
-                }, 
+                    "Content-Type": "application/json",
+                },
+            })
+        }),
+        searchForPub: builder.query({
+            query: (term) => ({
+                url: `/pub/searchPubs/${term}`,
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
         }),
     })
@@ -56,4 +65,5 @@ export const {
     useGetReviewsForPubQuery,
     useGetUserReviewsQuery,
     useGetVisitedPubsQuery,
+    useSearchForPubQuery,
 } = apiSlice

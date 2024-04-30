@@ -3,7 +3,7 @@ import { Rating, Button, Avatar, Typography } from "@material-tailwind/react";
 import MakeReview from "./MakeReview";
 import { MdOutlineReviews } from "react-icons/md";
 import { useGetUserReviewsQuery } from "../redux/slices/apiSlices/pubApiSlice";
-import DropdownMenu from "../DropdownMenu";
+import DropdownMenu from "../menu/DropdownMenu";
 import { useDeleteReviewMutation } from "../redux/slices/apiSlices/reviewApiSlice";
 
 export default function UserReviews() {
@@ -15,12 +15,12 @@ export default function UserReviews() {
 
     console.log(reviews)
     const [open, setOpen] = useState(false);
- 
+
     const handleOpen = () => setOpen(!open);
 
     const handleDeleteReview = async (id) => {
         try {
-            await deleteReview({reviewId: id})
+            await deleteReview({ reviewId: id })
             refetch()
         } catch (err) {
             console.log(err)
@@ -44,11 +44,11 @@ export default function UserReviews() {
                             <Typography variant="h5">{review.username}</Typography>
                         </div>
                         <ReviewRating label="Rating" value={review.rating} />
-                        { reviewId === review.id &&
+                        {reviewId === review.id &&
                             <>
                                 <ReviewRating label="Toilets" value={review.toilets} />
                                 <ReviewRating label="Service" value={review.service} />
-                                
+
                                 <Typography color="blue-gray" className="font-medium text-blue-gray-500">
                                     Volume: {review.loudness}
                                 </Typography>
@@ -59,7 +59,7 @@ export default function UserReviews() {
                             {review.review}
                         </Typography>
 
-                        <Button 
+                        <Button
                             variant="filled"
                             onClick={() => {
                                 if (reviewId === review.id) {
@@ -70,25 +70,25 @@ export default function UserReviews() {
                             }}
                             className="text-sm px-2 py-1 rounded bg-gray-500 text-black"
                         >
-                        { reviewId === review.id ?
-                            "Show less" : "Show more"
-                        }
+                            {reviewId === review.id ?
+                                "Show less" : "Show more"
+                            }
                         </Button>
 
-                        <Button 
+                        <Button
                             onClick={() => {
                                 setOpen(!open)
                                 console.log(review)
                                 setReview(review)
-                            }} 
+                            }}
                             variant="filled" className="bg-white my-2 flex items-center text-black"
                         >
                             <MdOutlineReviews size={20} className="mr-2" />
                             Edit Review
                         </Button>
 
-                        <Button 
-                            onClick={() => handleDeleteReview(review.id)} 
+                        <Button
+                            onClick={() => handleDeleteReview(review.id)}
                             variant="filled" className="bg-white my-2 flex items-center text-black"
                         >
                             <MdOutlineReviews size={20} className="mr-2" />
@@ -98,7 +98,7 @@ export default function UserReviews() {
                 ))}
             </div>
 
-            { review &&
+            {review &&
                 <MakeReview
                     data={review}
                     pubname={review.pubname}

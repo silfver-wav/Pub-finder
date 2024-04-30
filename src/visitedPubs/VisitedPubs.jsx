@@ -1,7 +1,7 @@
 import { useGetVisitedPubsQuery } from "../redux/slices/apiSlices/pubApiSlice";
 import BarTab from "../barTab/BarTab";
 import { skipToken } from "@reduxjs/toolkit/query";
-import DropdownMenu from "../DropdownMenu";
+import DropdownMenu from "../menu/DropdownMenu";
 import "../searchBar/SearchResults.css"
 
 export default function VisitedPubs() {
@@ -21,7 +21,7 @@ export default function VisitedPubs() {
             <DropdownMenu />
             <h2 className="mb-5 text-center text-4xl font-bold tracking-tight text-white pt-10">Vistied Pubs</h2>
             <div className="ml-4 mr-4 mt-10 grid grid-cols-4 gap-4 bg-slate-800">
-                { isSuccess && visitedPubs.map((pub) => (
+                {isSuccess && visitedPubs.map((pub) => (
                     <div className="flex justify-center bg-slate-900 rounded-lg">
                         <div className="w-full">
                             <BarTab key={pub.id} pub={pub.pubDto} user={user} visited={true} refetch={null} />
