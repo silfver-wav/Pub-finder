@@ -6,6 +6,7 @@ import './App.css'
 import StartPage from "./StartPage";
 import { Routes, Route } from "react-router-dom";
 import VisitedPubs from "./visitedPubs/VisitedPubs";
+import UserReviews from "./review/UserReviews";
 
 
 export default function App() {  
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/visitedPubs" element={<VisitedPubs />} />
+        <Route path="/userReviews" element={<UserReviews />} />
       </Routes>
     </div>
   );

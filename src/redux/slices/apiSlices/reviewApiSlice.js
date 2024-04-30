@@ -27,10 +27,28 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
                 },
             })
         }),
+        updateReview: builder.mutation({
+            query: ({ id, review }) => ({
+                url: `/review/edit`,
+                method: 'PUT',
+                body: {
+                    'id': id,
+                    'review': review.review,
+                    'rating': review.rating,
+                    'toilets': review.toiletsRating,
+                    'volume': review.volume,
+                    'service': review.serviceRating,
+                },
+                headers: {
+                  "Content-Type": "application/json",
+                },
+            })
+        }),
     })
 })
 
 export const {
     useReviewMutation,
     usedeleteReviewMutation,
+    useUpdateReviewMutation,
 } = apiSlice

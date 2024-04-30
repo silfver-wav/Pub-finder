@@ -12,7 +12,7 @@ import { useDeleteVisitMutation } from "../redux/slices/apiSlices/visitApiSlice"
 import { useVisitMutation } from "../redux/slices/apiSlices/visitApiSlice";
 
 import Info from "./Info";
-import Reviews from "./Reviews";
+import Reviews from "../review/Reviews";
 
 export default function BarTab({ pub, user=false, visited, refetch}) {
     const dispatch = useDispatch();
@@ -48,7 +48,7 @@ export default function BarTab({ pub, user=false, visited, refetch}) {
           }
       }
       setHasVisited(!hasVisited);
-      // force re-fetches the data
+
       refetch()
     }, [visitedPub, deleteVisit, pub.id, hasVisited, setHasVisited, user, refetch]);
 

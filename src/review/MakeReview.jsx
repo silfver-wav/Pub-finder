@@ -10,17 +10,36 @@ import {
     Rating
 } from "@material-tailwind/react";
 import { useReviewMutation } from "../redux/slices/apiSlices/reviewApiSlice";
+import { useUpdateReviewMutation } from "../redux/slices/apiSlices/reviewApiSlice";
 
-export default function Review({ pubname, pubId, isOpen, onClose }) {
+export default function MakeReview({ data, pubname, pubId, isOpen, onClose, update, refetch }) {
     const [reviewPub] = useReviewMutation();
+    const [updateReview] = useUpdateReviewMutation();
+    const [volume, setVolume] = useState(50);
     const [reviewInput, setReviewInput] = useState({
         rating: null,
         toiletsRating: null,
         serviceRating: null,
-        volume: null,
+        volume: 50,
         review: "",
     });
     const username = localStorage.getItem("user");
+
+    useEffect(() => {
+        if (data) {
+            const loudness = setLoundess(data.loudness)
+            setVolume(loudness)
+        }
+        console.log("here")
+
+        setReviewInput({
+            rating: data ? data.rating : null,
+            toiletsRating: data ? data.toilets : null,
+            serviceRating: data ? data.service : null,
+            volume: data ? data.loudness : "AVERAGE",
+            review: data ? data.review : "",
+        });
+    }, [data]);
 
     const handleClose = () => {
         setReviewInput({
@@ -34,7 +53,8 @@ export default function Review({ pubname, pubId, isOpen, onClose }) {
     };
 
     const setVolumeLevel = (e) => {
-        const value = parseInt(e.target.value);
+        const value = e.target.value
+        setVolume(value)
         if (0 <= value && value <= 20) {
             setReviewInput({
                 ...reviewInput,
@@ -48,7 +68,7 @@ export default function Review({ pubname, pubId, isOpen, onClose }) {
         } else if (40 < value && value <= 60) {
             setReviewInput({
                 ...reviewInput,
-                volume:  "PLEASANT",
+                volume:  "AVERAGE",
             })
         } else if (60 < value && value <= 80) {
             setReviewInput({
@@ -68,20 +88,41 @@ export default function Review({ pubname, pubId, isOpen, onClose }) {
             ...reviewInput,
             [name]: value,
         });
+        console.log(reviewInput)
     };
 
-
-    const handleSubmit = async () => {
+    const handleSubmit = useCallback(async () => {
         console.log(reviewInput)
         try {
-            await reviewPub({
-                review: reviewInput,
-                pubId: pubId,
-                username: username
-            })
+            if (update) {
+                await updateReview({ id: data.id, review: reviewInput })
+            } else {
+                if (reviewInput.rating != null) {
+                    await reviewPub({
+                        review: reviewInput,
+                        pubId: pubId,
+                        username: username
+                    })  
+                }
+            }
+            refetch()
             handleClose()
         } catch (err) {
             console.log(err)
+        }
+    }, [reviewInput, update, pubId, username, updateReview]);
+
+    const setLoundess = (value) => {
+        if (value === "QUITE") {
+            return 10
+        } else if (value === "PLEASANT") {
+            return 30
+        } else if (value === "AVERAGE") {
+            return 50
+        } else if (value === "LOUD") {
+            return 70
+        } else {
+            return 90
         }
     }
 
@@ -101,11 +142,10 @@ export default function Review({ pubname, pubId, isOpen, onClose }) {
                     <Rating 
                         unratedColor="blue" 
                         ratedColor="blue"
-                        value={reviewInput.rating} 
+                        value={reviewInput.rating}
                         onChange={(rating) => handleUserInput("rating", rating)} 
                     />
                 </div>
-                
                 <div className="flex items-center gap-2 font-bold text-white">
                     Toilets Rating: 
                     <Rating 
@@ -115,7 +155,6 @@ export default function Review({ pubname, pubId, isOpen, onClose }) {
                         onChange={(rating) => handleUserInput("toiletsRating", rating)} 
                     />
                 </div>
-                
                 <div className="flex items-center gap-2 font-bold text-white">
                     Service Rating: 
                     <Rating 
@@ -125,14 +164,14 @@ export default function Review({ pubname, pubId, isOpen, onClose }) {
                         onChange={(rating) => handleUserInput("serviceRating", rating)} 
                     />
                 </div>
-
+                
                 <div className="flex items-center gap-2 font-bold text-white">
                     Volume
                     <Slider 
-                    color="blue"
-                    size="md"
-                        defaultValue={50} 
-                        onChange={(value) => setVolumeLevel(value)}
+                        color="blue"
+                        size="md"
+                        value={volume}
+                        onChange={setVolumeLevel}
                     />
                 </div>
 
@@ -140,12 +179,12 @@ export default function Review({ pubname, pubId, isOpen, onClose }) {
                     color="gray" 
                     label="Review" 
                     className="text-white"
-                    // onChange={(text) => handleUserInput("review", text)} 
                     onChange={(e) => {               
                         setReviewInput({
                             ...reviewInput,
                             "review": e.target.value,
                         });
+                        console.log(reviewInput)
                      }}
                 />
             </DialogBody>

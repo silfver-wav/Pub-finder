@@ -18,6 +18,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     if (args.url.includes('null')) { // skipToken is not working in map.jsx so this is needed
       return {data: []}
     }
+
     let result = await baseQuery(args, api, extraOptions)
     if (result?.error?.status == 403) {
         console.log('sending refresh token')

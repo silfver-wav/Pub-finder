@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Rating, Button, Avatar, Typography } from "@material-tailwind/react";
-import Review from "./Review";
+import MakeReview from "./MakeReview";
 import { MdOutlineReviews } from "react-icons/md";
 import { useGetReviewsForPubQuery } from "../redux/slices/apiSlices/pubApiSlice";
 
 export default function Reviews({ pubId, pubname }) {
     const [reviewId, setReviewId] = useState();
-    const { data: reviews = [] } = useGetReviewsForPubQuery(pubId)
+    const { data: reviews = [], refetch } = useGetReviewsForPubQuery(pubId)
 
+    console.log(reviews)
     const [open, setOpen] = useState(false);
  
     const handleOpen = () => setOpen(!open);
@@ -26,11 +27,11 @@ export default function Reviews({ pubId, pubname }) {
                         <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" />
                         <Typography variant="h5">{review.username}</Typography>
                     </div>
-                    <ReviewRating label="Rating" value={4} />
+                    <ReviewRating label="Rating" value={review.rating} />
                     { reviewId === review.id &&
                         <>
-                            <ReviewRating label="Toilets" value={4} />
-                            <ReviewRating label="Service" value={4} />
+                            <ReviewRating label="Toilets" value={review.toilets} />
+                            <ReviewRating label="Service" value={review.service} />
                             
                             <Typography color="blue-gray" className="font-medium text-blue-gray-500">
                                 Volume: Pleseant
@@ -61,11 +62,14 @@ export default function Reviews({ pubId, pubname }) {
                 
             ))}
 
-            <Review
+            <MakeReview
+                data={null}
                 pubname={pubname}
                 pubId={pubId}
                 isOpen={open}
                 onClose={handleOpen}
+                update={false}
+                refetch={refetch}
             />
         </div>
     );
@@ -77,7 +81,7 @@ function ReviewRating({ label, value }) {
             <Typography color="blue-gray" className="font-medium text-blue-gray-500 w-14">
                 {label}
             </Typography>
-            <Rating value={value} />
+            <Rating value={value} readonly />
         </div>
     );
 }

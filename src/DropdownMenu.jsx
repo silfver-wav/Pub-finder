@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaRegMap  } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
 import { BiLogOut } from "react-icons/bi";
 import { MdOutlineReviews, MdOutlineBeenhere } from "react-icons/md";
@@ -58,19 +58,25 @@ export default function DropdownMenu() {
           {user ? (
             <SpeedDialContent>
                 <SpeedDialAction className="relative">
-                    <Link to="#">
-                        <MdOutlineBeenhere className="h-5 w-5" />
-                        <Typography {...labelProps}>Reviews</Typography>
+                    <Link to="/">
+                        <FaRegMap size={22}/>
+                        <Typography {...labelProps}>Map</Typography>
+                    </Link>
+                </SpeedDialAction> 
+                <SpeedDialAction className="relative">
+                    <Link to="/userReviews">
+                        <MdOutlineReviews size={22} />
+                        <Typography {...labelProps}>Review</Typography>
                     </Link>
                 </SpeedDialAction>    
                 <SpeedDialAction className="relative">
                     <Link to="/visitedPubs">
-                        <MdOutlineBeenhere className="h-5 w-5" />
+                        <MdOutlineBeenhere size={22} />
                         <Typography {...labelProps}>Visited</Typography>
                     </Link>
                 </SpeedDialAction>      
                 <SpeedDialAction className="relative">
-                    <BiLogOut className="h-5 w-5" onClick={() => handelLogout()} />
+                    <BiLogOut size={22} onClick={() => handelLogout()} />
                     <Typography {...labelProps}>Logout</Typography>
                 </SpeedDialAction>        
             </SpeedDialContent>
