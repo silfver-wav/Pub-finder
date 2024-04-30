@@ -24,15 +24,9 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         console.log('sending refresh token')
         // send refresh token
         const refreshToken = Cookies.get('refresher-cookie')
-        /*
-        const refreshResult = await baseQuery('user/refreshToken', api, {
-            ...extraOptions,
-            method: 'PUT',
-            headers: {
-                ...extraOptions?.headers,
-                'Authorization': `Bearer ${refreshToken}`
-            }
-        });
+        localStorage.setItem("accessToken", refreshToken);
+
+        const refreshResult = await baseQuery('user/refreshToken', api, extraOptions);
         
         console.log(refreshResult)
 
@@ -45,7 +39,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         } else {
             api.dispatch(signout())
         }
-        */
     } 
     return result
 }
