@@ -49,6 +49,6 @@ export const reviewApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useReviewMutation,
-    usedeleteReviewMutation,
+    useDeleteReviewMutation,
     useUpdateReviewMutation,
 } = apiSlice

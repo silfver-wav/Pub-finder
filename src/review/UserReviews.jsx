@@ -4,17 +4,28 @@ import MakeReview from "./MakeReview";
 import { MdOutlineReviews } from "react-icons/md";
 import { useGetUserReviewsQuery } from "../redux/slices/apiSlices/pubApiSlice";
 import DropdownMenu from "../DropdownMenu";
+import { useDeleteReviewMutation } from "../redux/slices/apiSlices/reviewApiSlice";
 
 export default function UserReviews() {
     const username = localStorage.getItem("user");
     const [review, setReview] = useState();
     const [reviewId, setReviewId] = useState();
     const { data: reviews = [], refetch } = useGetUserReviewsQuery(username)
+    const [deleteReview] = useDeleteReviewMutation();
 
     console.log(reviews)
     const [open, setOpen] = useState(false);
  
     const handleOpen = () => setOpen(!open);
+
+    const handleDeleteReview = async (id) => {
+        try {
+            await deleteReview({reviewId: id})
+            refetch()
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <div className="bg-black overflow-y-auto h-full">
@@ -74,6 +85,14 @@ export default function UserReviews() {
                         >
                             <MdOutlineReviews size={20} className="mr-2" />
                             Edit Review
+                        </Button>
+
+                        <Button 
+                            onClick={() => handleDeleteReview(review.id)} 
+                            variant="filled" className="bg-white my-2 flex items-center text-black"
+                        >
+                            <MdOutlineReviews size={20} className="mr-2" />
+                            Delete Review
                         </Button>
                     </div>
                 ))}
