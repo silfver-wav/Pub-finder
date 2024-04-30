@@ -22,9 +22,8 @@ export default function StartPage() {
       <SideBar />
       <SearchResults />
       <MdOutlineLayers
-        size={30}
         onClick={() => dispatch(toggleLayer())}
-        className="fixed bottom-2 left-2 cursor-pointer z-30 text-white"
+        className="h-10 w-10 fixed bottom-2 left-2 cursor-pointer z-30 text-white hover:h-12 hover:w-12 transition-all"
         />
       <Map className="z-10" />
 

@@ -24,7 +24,7 @@ export default function Reviews({ pubId, pubname }) {
             {reviews.map((review) => (
                 <div key={review.id}>
                     <div className="flex items-center gap-4 my-1">
-                        <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" />
+                        <Avatar src="https://www.wanderglobe.org/wp-content/uploads/2019/09/Beer.jpg" alt="avatar" />
                         <Typography variant="h5">{review.username}</Typography>
                     </div>
                     <ReviewRating label="Rating" value={review.rating} />
