@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  pubs: [],
+  geocode: {
+    latitude: null,
+    longitude: null,
+    radius: null
+  },
   visitedPubs: [],
 };
 
@@ -13,12 +17,16 @@ const pubsSlice = createSlice({
     setVisitedPubs(state, action) {
       state.visitedPubs = action.payload.visitedPubs
     },
-    setPubs(state, action) {
-      state.pubs = action.payload
+    setLocation(state, action) {
+      const { latitude, longitude, radius } = action.payload
+
+      state.geocode.latitude = latitude
+      state.geocode.longitude = longitude
+      state.geocode.radius = radius
     }
   },
 });
 
-export const { setVisitedPubs, setPubs } = pubsSlice.actions;
+export const { setVisitedPubs, setLocation } = pubsSlice.actions;
 
 export default pubsSlice.reducer;

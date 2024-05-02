@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthContainer from "./AuthContainer";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { useSignupMutation } from "../redux/slices/authApiSlice";
+import { useSignupMutation } from "../redux/slices/apiSlices/authApiSlice";
 import { setCredentials } from "../redux/slices/authSlice";
 
 export default function SignupForm() {
@@ -66,7 +66,7 @@ export default function SignupForm() {
   return (
     <AuthContainer title="Sign Up">
         <form className="flex flex-col" onSubmit={handleSubmit}>
-          <div className="flex space-x-4 mb-4">
+          <div className="flex space-x-4 m-auto">
             <input
               id="fistname"
               name="firstname"
@@ -135,14 +135,14 @@ export default function SignupForm() {
             type="submit"
             className="bg-indigo-600 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline 
               focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-60  rounded-md p-2
-              w-[332px] focus:bg-white focus:outline-none transition ease-in-out duration-150 placeholder-white mb-4 ml-1.5"
+              w-[332px] focus:bg-white focus:outline-none transition ease-in-out duration-150 placeholder-white m-auto mb-4"
           >
             Submit
           </button>
 
           <p className="text-white mt-4 text-center ">
             Already have an account? 
-              <Link to="/login" className="text-white-500 hover:underline mt-4 px-1" tabIndex="-1" id="menu-item-0">Sign Up</Link>
+              <Link to="/login" className="text-white-500 hover:underline mt-4 px-1" tabIndex="-1" id="menu-item-0">Sign In</Link>
           </p>
 
         </form>

@@ -13,7 +13,7 @@ const authSlice = createSlice({
       const { accessToken, refreshToken } = action.payload.response
       localStorage.setItem("user", action.payload.user);
       localStorage.setItem("accessToken", accessToken);
-      Cookies.set('refresher-cookie', refreshToken, { expires: 1})
+      Cookies.set('refresher-cookie', refreshToken, { expires: 1 })
     },
     signout(state, action) {
       localStorage.clear();
