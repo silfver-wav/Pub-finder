@@ -28,7 +28,7 @@ export default function SideBar() {
     if (user) {
       setGetVisitedPubs(true)
     }
-  },[user])
+  }, [user])
 
   const visited = (pub) => {
     if (!visitedPubs) {
@@ -36,18 +36,18 @@ export default function SideBar() {
     }
     return visitedPubs.some((visitedPub) => visitedPub.pubDto.id === pub.id);
   };
-  
+
   return (
     <div className="bg-gray-900 rounded-lg p-2 absolute right-2 z-40 scrollbar-thin overflow-y-auto sm:w-50 md:w-72 lg:w-96 h-5/6 top-20 focus:border-white">
-        {!isEmpty(searchedPub) &&
+      {!isEmpty(searchedPub) &&
         (<>
-            <BarTab key={searchedPub.id} pub={searchedPub} user={user} visited={visited(searchedPub)} refetch={refetch}/>
-            <hr />
+          <BarTab key={searchedPub.id} pub={searchedPub} user={user} visited={visited(searchedPub)} refetch={refetch} />
+          <hr />
         </>
         )}
-        {pubs.map((pub) => (
-          <BarTab key={pub.id} pub={pub} user={user} visited={visited(pub)} refetch={refetch}/>
-        ))}
+      {pubs.map((pub) => (
+        <BarTab key={pub.id} pub={pub} user={user} visited={visited(pub)} refetch={refetch} />
+      ))}
     </div>
   );
 }

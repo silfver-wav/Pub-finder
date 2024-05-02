@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setPub } from "../redux/slices/pubSlice";
-import { clearSearchResults } from "../redux/slices/searchSlice";
 import correctEncoding from "../utils/correctEncoding";
 import './SearchResults.css'
 import { useGetPubQuery } from "../redux/slices/apiSlices/pubApiSlice";
