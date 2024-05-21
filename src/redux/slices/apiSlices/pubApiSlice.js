@@ -56,6 +56,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 },
             })
         }),
+        getAdditionalInfo: builder.query({
+            query: (id) => ({
+                url: `/pub/info/${id}`,
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+        }),
     })
 })
 
@@ -66,4 +75,5 @@ export const {
     useGetUserReviewsQuery,
     useGetVisitedPubsQuery,
     useSearchForPubQuery,
+    useGetAdditionalInfoQuery,
 } = apiSlice
