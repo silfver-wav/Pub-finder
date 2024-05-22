@@ -17,7 +17,7 @@ export default function DropdownMenu() {
                 <SpeedDial>
                     <SpeedDialHandler>
                         <IconButton size="lg" className="rounded-full">
-                            <FaUserCircle className="size-6  transition-transform group-hover:size-8" />
+                            <FaUserCircle className="size-7  transition ease-in-out delay group-hover:size-8 duration-200" />
                         </IconButton>
                     </SpeedDialHandler>
 
