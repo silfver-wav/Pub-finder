@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,14 +19,15 @@
     }
 
     .scrollbar-thin::-webkit-scrollbar {
+        background-color: wheat;
+        border-radius: 5px;
         width: 10px;
         height: 20px;
-      }
-      
-      .scrollbar-thin::-webkit-scrollbar-thumb {
-        background-color: black;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb {
         border-radius: 5px;
-        height: 80px;
-      }
-      
+        height: 85px;
+    }
+
 }

@@ -10,12 +10,12 @@ export default function Reviews({ pubId, pubname }) {
 
     console.log(reviews)
     const [open, setOpen] = useState(false);
- 
+
     const handleOpen = () => setOpen(!open);
 
     return (
-        <div className="w-full flex flex-col">
-            <hr className="border-gray-300 my-2" />
+        <div className="w-full flex flex-col pt-4">
+            <hr className="border-gray-200 mb-2" />
             <Button onClick={handleOpen} variant="filled" className="bg-white my-2 flex items-center text-black">
                 <MdOutlineReviews size={20} className="mr-2" />
                 Write a review
@@ -28,11 +28,11 @@ export default function Reviews({ pubId, pubname }) {
                         <Typography variant="h5">{review.username}</Typography>
                     </div>
                     <ReviewRating label="Rating" value={review.rating} />
-                    { reviewId === review.id &&
+                    {reviewId === review.id &&
                         <>
                             <ReviewRating label="Toilets" value={review.toilets} />
                             <ReviewRating label="Service" value={review.service} />
-                            
+
                             <Typography color="blue-gray" className="font-medium text-blue-gray-500">
                                 Volume: Pleseant
                             </Typography>
@@ -43,7 +43,7 @@ export default function Reviews({ pubId, pubname }) {
                         {review.review}
                     </Typography>
 
-                    <Button 
+                    <Button
                         variant="filled"
                         onClick={() => {
                             if (reviewId === review.id) {
@@ -54,12 +54,12 @@ export default function Reviews({ pubId, pubname }) {
                         }}
                         className="text-sm px-2 py-1 rounded bg-gray-500 text-black"
                     >
-                    { reviewId === review.id ?
-                        "Show less" : "Show more"
-                    }
+                        {reviewId === review.id ?
+                            "Show less" : "Show more"
+                        }
                     </Button>
                 </div>
-                
+
             ))}
 
             <MakeReview

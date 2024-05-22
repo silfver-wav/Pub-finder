@@ -38,16 +38,33 @@ export default function SideBar() {
   };
 
   return (
-    <div className="bg-gray-900 rounded-lg p-2 absolute right-2 z-40 scrollbar-thin overflow-y-auto sm:w-50 md:w-72 lg:w-96 h-5/6 top-20 focus:border-white">
-      {!isEmpty(searchedPub) &&
-        (<>
-          <BarTab key={searchedPub.id} pub={searchedPub} user={user} visited={visited(searchedPub)} refetch={refetch} />
-          <hr />
+    <div className="bg-black rounded-xl p-2 absolute right-2 z-40 snap-y scrollbar-thin overflow-y-auto sm:w-50 md:w-72 lg:w-96 bottom-12 top-20 scroll-snap-type-y-mandatory" style={{ scrollPaddingTop: '10px' }}>
+      {!isEmpty(searchedPub) && (
+        <>
+          <div className="snap-center">
+            <BarTab
+              key={searchedPub.id}
+              pub={searchedPub}
+              user={user}
+              visited={visited(searchedPub)}
+              refetch={refetch}
+            />
+            <hr />
+          </div>
         </>
-        )}
+      )}
       {pubs.map((pub) => (
-        <BarTab key={pub.id} pub={pub} user={user} visited={visited(pub)} refetch={refetch} />
+        <div className="snap-center" key={pub.id}>
+          <BarTab
+            pub={pub}
+            user={user}
+            visited={visited(pub)}
+            refetch={refetch}
+          />
+        </div>
       ))}
     </div>
+
+
   );
 }

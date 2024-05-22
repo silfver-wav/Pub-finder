@@ -1,8 +1,9 @@
 import { FaGlobe, FaToilet } from "react-icons/fa";
-import { RxAccessibility } from "react-icons/rx";
+import { PiWheelchairFill } from "react-icons/pi";
 import { GrCheckmark } from "react-icons/gr";
 import { RxCross1 } from "react-icons/rx";
 import { useGetAdditionalInfoQuery } from "../redux/slices/apiSlices/pubApiSlice";
+import { ImSpinner2 } from "react-icons/im";
 
 export default function Info({ pub }) {
 
@@ -11,63 +12,78 @@ export default function Info({ pub }) {
     console.log(info)
 
     return (
-        <div className="w-full">
+        <div className="w-full pt-4">
             {
                 info ?
-                    <RenderInfo info={info} />
+                    <RenderInfo info={info} description={pub.description} />
                     :
-                    <p>Loading</p>
+                    <div className="flex justify-center items-center">
+                        <ImSpinner2 className="animate-spin h-7 w-7" />
+                    </div>
             }
         </div>
     );
 }
 
-
-const RenderInfo = ({ info }) => {
+const RenderInfo = ({ info, description }) => {
     return (
         <>
-            <hr className="border-gray-300 mb-3" />
+            <hr className="border-gray-200 mb-2" />
 
-            <div className="flex mb-1">
-                <FaToilet size={17} className="mr-2" />
-                <p className="text-md text-left mb-1">
+            <p class="block font-oswald text-md antialiased font-light leading-relaxed text-white mb-3">
+                {description}
+            </p>
+
+            <li class="flex items-center gap-4 text-white mb-1">
+                <FaToilet size={18} />
+                <p class="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
                     {info.washroom ?
                         <GrCheckmark size={17} />
                         :
                         <RxCross1 size={17} />
                     }
                 </p>
-            </div>
+            </li>
 
             {info.website &&
-                <div className="flex mb-1">
-                    <FaGlobe size={17} className="mr-2" />
+                <li class="flex items-center gap-4 text-white mb-1">
+                    <FaGlobe size={16} />
                     <a
                         href={info.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-cyan-300 hover:text-cyan-400"
+                        class="block font-oswald text-base font-200 leading-relaxed text-blue-500 antialiased hover:underline"
                     >
                         {info.website}
                     </a>
-                </div>
+                </li>
             }
 
             <p className="flex">{info.outDoorSeating}</p>
 
-            <div className="flex mb-1">
-                <RxAccessibility size={17} className="mr-2" />
-                <p className="text-md text-left">Accessible Seating: {info.accessibility.accessibleSeating ? 'yes' : 'no'}</p>
-            </div>
-            <div className="flex mb-1">
-                <RxAccessibility size={17} className="mr-2" />
-                <p className="text-md text-left">
-                    Accessible Entrance: {info.accessibility.accessibleEntrance ? 'yes' : 'no'}</p>
-            </div>
-            <div className="flex mb-1">
-                <RxAccessibility size={17} className="mr-2" />
-                <p className="text-md text-left">Accessible Parking: {info.accessibility.accessibleParking ? 'yes' : 'no'}</p>
-            </div>
+            <li class="flex items-center gap-4 text-white mb-1">
+                <PiWheelchairFill size={18} />
+                <p class="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
+                    Accessible Seating:
+                    {info.accessibility.accessibleSeating ? ' Yes' : ' No'}
+                </p>
+            </li>
+
+            <li class="flex items-center gap-4 text-white mb-1">
+                <PiWheelchairFill size={18} />
+                <p class="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
+                    Accessible Entrance:
+                    {info.accessibility.accessibleEntrance ? ' Yes' : ' No'}
+                </p>
+            </li>
+
+            <li class="flex items-center gap-4 text-white mb-1">
+                <PiWheelchairFill size={18} />
+                <p class="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
+                    Accessible Parking:
+                    {info.accessibility.accessibleParking ? ' Yes' : ' No'}
+                </p>
+            </li>
         </>
     );
 }
