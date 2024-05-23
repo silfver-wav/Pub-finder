@@ -2,8 +2,9 @@ import { FaGlobe, FaToilet } from "react-icons/fa";
 import { PiWheelchairFill } from "react-icons/pi";
 import { GrCheckmark } from "react-icons/gr";
 import { RxCross1 } from "react-icons/rx";
-import { useGetAdditionalInfoQuery } from "../redux/slices/apiSlices/pubApiSlice";
 import { ImSpinner2 } from "react-icons/im";
+import { useGetAdditionalInfoQuery } from "../redux/slices/apiSlices/pubApiSlice";
+import { motion } from "framer-motion"
 
 export default function Info({ pub }) {
 
@@ -13,9 +14,12 @@ export default function Info({ pub }) {
 
     return (
         <div className="w-full pt-4">
+            <hr className="border-gray-200 mb-2" />
             {
                 info ?
+
                     <RenderInfo info={info} description={pub.description} />
+
                     :
                     <div className="flex justify-center items-center">
                         <ImSpinner2 className="animate-spin h-7 w-7" />
@@ -28,7 +32,6 @@ export default function Info({ pub }) {
 const RenderInfo = ({ info, description }) => {
     return (
         <>
-            <hr className="border-gray-200 mb-2" />
 
             <p class="block font-oswald text-md antialiased font-light leading-relaxed text-white mb-3">
                 {description}

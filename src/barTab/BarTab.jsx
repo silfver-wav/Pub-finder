@@ -14,6 +14,7 @@ import { useVisitMutation } from "../redux/slices/apiSlices/visitApiSlice";
 import Info from "./Info";
 import Reviews from "../review/Reviews";
 import correctEncoding from "../utils/correctEncoding";
+import { motion } from "framer-motion"
 
 export default function BarTab({ pub, user = false, visited, refetch }) {
   const dispatch = useDispatch();
@@ -77,7 +78,7 @@ export default function BarTab({ pub, user = false, visited, refetch }) {
       */}
 
       <div class="flex items-center justify-between font-times pt-4 pl-4">
-        <h5 class="block text-2xl antialiased font-medium leading-snug tracking-normal font-oswald text-white">
+        <h5 class="block text-2xl antialiased font-medium leading-snug tracking-normal font-oswald text-off_white">
           {correctEncoding(pub.name)}
         </h5>
         {pub.rating != 0 &&
@@ -148,8 +149,16 @@ export default function BarTab({ pub, user = false, visited, refetch }) {
           </div>
         </div>
 
-        {showInfo && <Info pub={pub} />}
-        {showReviews && <Reviews pubId={pub.id} pubname={pub.name} user={user} />}
+        {showInfo &&
+          <motion.div layoutId="underline">
+            <Info pub={pub} />
+          </motion.div>
+        }
+        {showReviews &&
+          <motion.div layoutId="underline">
+            <Reviews pubId={pub.id} pubname={pub.name} user={user} />
+          </motion.div>
+        }
 
       </div>
 

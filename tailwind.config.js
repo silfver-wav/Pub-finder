@@ -13,9 +13,9 @@ module.exports = withMT({
         oswald: ['Oswald', 'sans-serif'],
       },
       colors: {
+        wheat: '#f5deb3',
         off_white: '#fffaf0',
       },
-
       animation: {
         'spin-slow': 'spin 3s linear infinite',
       },
@@ -25,7 +25,7 @@ module.exports = withMT({
       transitionProperty: {
         'height': 'height',
         'spacing': 'margin, padding',
-      }
+      },
     }
   },
   plugins: [],

@@ -19,7 +19,7 @@
     }
 
     .scrollbar-thin::-webkit-scrollbar {
-        background-color: wheat;
+        background-color: #f5deb3;
         border-radius: 5px;
         width: 10px;
         height: 20px;
