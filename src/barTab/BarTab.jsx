@@ -131,7 +131,7 @@ export default function BarTab({ pub, user = false, visited, refetch, isSearched
         </li>
 
 
-        <div class="grid place-items-center overflow-x-scroll rounded-lg lg:overflow-visible text-inherit">
+        <div class="grid place-items-center rounded-lg lg:overflow-visible text-inherit">
           <div class="flex divide-x divide-gray-800 row py-1">
             <button
               class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
