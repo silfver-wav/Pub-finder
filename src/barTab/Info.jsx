@@ -4,7 +4,6 @@ import { GrCheckmark } from "react-icons/gr";
 import { RxCross1 } from "react-icons/rx";
 import { ImSpinner2 } from "react-icons/im";
 import { useGetAdditionalInfoQuery } from "../redux/slices/apiSlices/pubApiSlice";
-import { motion } from "framer-motion"
 
 export default function Info({ pub }) {
 
@@ -17,9 +16,7 @@ export default function Info({ pub }) {
             <hr className="border-gray-200 mb-2" />
             {
                 info ?
-
                     <RenderInfo info={info} description={pub.description} />
-
                     :
                     <div className="flex justify-center items-center">
                         <ImSpinner2 className="animate-spin h-7 w-7" />

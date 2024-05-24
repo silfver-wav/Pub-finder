@@ -16,7 +16,7 @@ import Reviews from "../review/Reviews";
 import correctEncoding from "../utils/correctEncoding";
 import { motion } from "framer-motion"
 
-export default function BarTab({ pub, user = false, visited, refetch }) {
+export default function BarTab({ pub, user = false, visited, refetch, isSearchedPub = false }) {
   const dispatch = useDispatch();
   const [expandedPubId, setExpandedPubId] = useState(null);
   const [hasVisited, setHasVisited] = useState(false);
@@ -61,8 +61,13 @@ export default function BarTab({ pub, user = false, visited, refetch }) {
 
   return (
     <div
-      class="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-gray-900 bg-clip-border text-off_white shadow-lg my-2 cursor-pointer"
-      onClick={() => dispatch(focusOnPub([pub.lat, pub.lng]))}
+      class={`relative flex w-full max-w-[26rem] flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
+      onClick={() => {
+        dispatch(focusOnPub([pub.lat, pub.lng]))
+        isSearchedPub = false
+      }
+      }
+      tabIndex="0"
       key={pub.id}
     >
       {/*
@@ -126,7 +131,7 @@ export default function BarTab({ pub, user = false, visited, refetch }) {
         </li>
 
 
-        <div class="grid place-items-center overflow-x-scroll rounded-lg lg:overflow-visible text-inherit">
+        <div class="grid place-items-center rounded-lg lg:overflow-visible text-inherit">
           <div class="flex divide-x divide-gray-800 row py-1">
             <button
               class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
@@ -165,61 +170,3 @@ export default function BarTab({ pub, user = false, visited, refetch }) {
     </div>
   );
 }
-
-/*
-      <div
-        className="text-white m-2 my-4 p-4 cursor-pointer flex flex-col items-start rounded-lg bg-opacity-10 bg-white transition duration-300 ease-in-out side-bar"
-        onClick={() => dispatch(focusOnPub([pub.lat, pub.lng]))}
-        key={pub.id}
-      >
-        <p className="font-bold mb-1 text-2xl" >{correctEncoding(pub.name)}</p>
-
-        <div className="flex justify-between">
-
-          <p className="text-xl text-left mb-1">{pub.price}</p>
-          {user && (
-            hasVisited ?
-              <MdOutlineBeenhere size={25} className="ml-40 text-cyan-400 hover:text-white" onClick={handleVisit} />
-              :
-              <MdOutlineBeenhere size={25} className="ml-40 hover:text-cyan-400" onClick={handleVisit} />
-          )}
-
-        </div>
-
-        <div className="flex items-center mb-1">
-          <IoTimeOutline size={20} className="mr-1" />
-          <p className="text-md text-left mb-1" >{formatOpeningHoursForToday(pub.openingHours)}</p>
-        </div>
-        <div className="flex items-center mb-1">
-          <GoLocation size={20} className="mr-1" />
-          <p className="location" >{formatLocation(pub.location)}</p>
-        </div>
-
-        <div className="flex justify-center">
-          <button
-            className="text-white bg-transparent border-none transition-colors hover:text-cyan-400 hover:bg-gray-700 px-4 py-2 rounded mr-2"
-            onClick={() => {
-              setShowInfo(!showInfo);
-              setShowReviews(false);
-            }}
-          >
-            More Info
-          </button>
-
-          <button
-            className="text-white bg-transparent border-none transition-colors hover:text-cyan-400 hover:bg-gray-700 px-4 py-2 rounded ml-2"
-            onClick={() => {
-              setShowReviews(!showReviews);
-              setShowInfo(false);
-            }}
-          >
-            Reviews
-          </button>
-
-        </div>
-
-        {showInfo && <Info pub={pub} />}
-        {showReviews && <Reviews pubId={pub.id} pubname={pub.name} user={user} />}
-
-      </div>
-      */

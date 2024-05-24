@@ -28,11 +28,13 @@ const beerIcon = new Icon({
 export default function Map() {
   const dispatch = useDispatch()
   const layer = useSelector((state) => state.layer.realisticMap);
+  const searchedPub = useSelector((state) => state.pub.pub);
   const [geocode, setGecode] = useState({
     latitude: null,
     longitude: null,
     radius: null,
   })
+  const [notInList, setNotInList] = useState(false);
 
   const { data: pubs = [], isSuccess } = useGetPubsQuery(geocode.latitude ? geocode : skipToken) // doesnt work
 
@@ -66,6 +68,20 @@ export default function Map() {
     }
   }, [isSuccess, pubs]);
 
+  useEffect(() => {
+    if (Object.keys(searchedPub).length === 0) {
+      return
+    }
+
+    const pub = pubs.find(obj => obj.id === searchedPub.id);
+
+    if (pub) {
+      setNotInList(false)
+    } else {
+      setNotInList(true)
+    }
+  }, [searchedPub])
+
   return (
     <MapContainer center={[59.31508, 18.072309]} zoom={16} zoomControl={false}>
       {renderTileLayer(layer)}
@@ -73,6 +89,11 @@ export default function Map() {
       <FocusOnLocation />
 
       <MarkerClusterGroup chunkedLoading animate={true} maxClusterRadius={10}>
+        {notInList && (
+          <Marker key={searchedPub.id} position={[searchedPub.lat, searchedPub.lng]} icon={beerIcon}>
+            <Popup>{correctEncoding(searchedPub.name)}</Popup>
+          </Marker>
+        )}
         {pubs.map((pub) => (
           <Marker key={pub.id} position={[pub.lat, pub.lng]} icon={beerIcon}>
             <Popup>{correctEncoding(pub.name)}</Popup>
