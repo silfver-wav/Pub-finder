@@ -10,7 +10,7 @@ export default function Info({ pub }) {
     const { data: info } = useGetAdditionalInfoQuery(pub.id);
 
     return (
-        <div className="w-full pt-2">
+        <div className="w-full">
             {
                 info ?
                     <RenderInfo info={info} description={pub.description} />

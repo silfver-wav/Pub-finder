@@ -1,20 +1,15 @@
 import { React, useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { focusOnPub } from "../redux/slices/pubSlice";
-
 import formatLocation from "../utils/formatLocation";
 import formatOpeningHoursForToday from "../utils/formatOpeningHoursForToday";
-
 import { WiTime1 } from "react-icons/wi";
 import { GoLocation } from "react-icons/go";
 import { BiSolidBeenHere } from "react-icons/bi";
 import { useDeleteVisitMutation } from "../redux/slices/apiSlices/visitApiSlice";
 import { useVisitMutation } from "../redux/slices/apiSlices/visitApiSlice";
-
-import Info from "./Info";
-import Reviews from "../review/Reviews";
 import correctEncoding from "../utils/correctEncoding";
-import { motion } from "framer-motion"
+import useWindowSize from "../useWindowSize";
 
 export default function BarTabMobile({ pub, user = false, visited, refetch, isSearchedPub = false }) {
     const dispatch = useDispatch();
@@ -22,9 +17,7 @@ export default function BarTabMobile({ pub, user = false, visited, refetch, isSe
     const [hasVisited, setHasVisited] = useState(false);
     const [visitedPub] = useVisitMutation();
     const [deleteVisit] = useDeleteVisitMutation();
-    const [showInfo, setShowInfo] = useState(false);
-    const [showReviews, setShowReviews] = useState(false);
-
+    const { width, height } = useWindowSize();
     const toggleExpanded = (pubId) => {
         setExpandedPubId(expandedPubId === pubId ? null : pubId);
     };
@@ -62,7 +55,7 @@ export default function BarTabMobile({ pub, user = false, visited, refetch, isSe
     return (
         <>
             <div
-                class={`relative flex w-64 flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
+                class={`relative flex ${width < 350 ? "w-[90vw]" : "w-full"} flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
                 onClick={() => {
                     dispatch(focusOnPub([pub.lat, pub.lng]))
                     isSearchedPub = false
@@ -91,7 +84,6 @@ export default function BarTabMobile({ pub, user = false, visited, refetch, isSe
                 </div>
 
                 <div class="pl-4 pb-4">
-
                     <div class="flex items-center justify-between font-times">
                         <p class="block font-oswald text-xl font-normal leading-relaxed text-inherit" >
                             {pub.price}
@@ -111,15 +103,12 @@ export default function BarTabMobile({ pub, user = false, visited, refetch, isSe
                         </p>
                     </li>
 
-
-
                     <li class="flex items-center gap-4 text-inherit mb-1">
                         <GoLocation size={20} />
                         <p class="block font-oswald text-base font-200 leading-relaxed antialiased">
                             {formatLocation(pub.location)}
                         </p>
                     </li>
-
                 </div>
             </div>
         </>

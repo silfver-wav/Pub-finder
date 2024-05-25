@@ -30,7 +30,7 @@ export default function Tabs({ pub, user }) {
                     ))}
                 </ul>
             </nav>
-            <main>
+            <div className="pl-4 pr-4">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={selectedTab ? selectedTab.label : "empty"}
@@ -47,7 +47,7 @@ export default function Tabs({ pub, user }) {
                         }
                     </motion.div>
                 </AnimatePresence>
-            </main>
+            </div>
         </div>
     );
 }

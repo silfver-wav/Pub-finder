@@ -15,8 +15,9 @@ import Info from "./Info";
 import Reviews from "../review/Reviews";
 import correctEncoding from "../utils/correctEncoding";
 import { motion } from "framer-motion"
+import Tabs from "./Tabs";
 
-export default function BarTab({ pub, user = false, visited, refetch, isSearchedPub = false, showBottom = true }) {
+export default function BarTab({ pub, user = false, visited, refetch, isSearchedPub = false }) {
   const dispatch = useDispatch();
   const [expandedPubId, setExpandedPubId] = useState(null);
   const [hasVisited, setHasVisited] = useState(false);
@@ -62,7 +63,7 @@ export default function BarTab({ pub, user = false, visited, refetch, isSearched
   return (
     <>
       <div
-        class={`relative flex w-80 flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
+        class={`relative flex w-full flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
         onClick={() => {
           dispatch(focusOnPub([pub.lat, pub.lng]))
           isSearchedPub = false
@@ -101,7 +102,7 @@ export default function BarTab({ pub, user = false, visited, refetch, isSearched
           }
         </div>
 
-        <div class="pl-4 pb-4">
+        <div class="pl-4 pb-4 pr-4">
 
           <div class="flex items-center justify-between font-times">
             <p class="block font-oswald text-xl font-normal leading-relaxed text-inherit" >
@@ -122,8 +123,6 @@ export default function BarTab({ pub, user = false, visited, refetch, isSearched
             </p>
           </li>
 
-
-
           <li class="flex items-center gap-4 text-inherit mb-1">
             <GoLocation size={20} />
             <p class="block font-oswald text-base font-200 leading-relaxed antialiased">
@@ -131,41 +130,38 @@ export default function BarTab({ pub, user = false, visited, refetch, isSearched
             </p>
           </li>
 
-          {showBottom &&
-            <div class="grid place-items-center rounded-lg lg:overflow-visible text-inherit">
-              <div class="flex divide-x divide-gray-800 row py-1">
-                <button
-                  class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
-                  onClick={() => {
-                    setShowInfo(!showInfo);
-                    setShowReviews(false);
-                  }}
-                >
-                  More Info
-                </button>
-                <button
-                  class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
-                  onClick={() => {
-                    setShowReviews(!showReviews);
-                    setShowInfo(false);
-                  }}
-                >
-                  Reviews
-                </button>
-              </div>
+          <div class="grid rounded-lg lg:overflow-visible text-inherit pt-2">
+            <div class="flex divide-x divide-gray-800 row">
+              <button
+                class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
+                onClick={() => {
+                  setShowInfo(!showInfo);
+                  setShowReviews(false);
+                }}
+              >
+                More Info
+              </button>
+              <button
+                class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
+                onClick={() => {
+                  setShowReviews(!showReviews);
+                  setShowInfo(false);
+                }}
+              >
+                Reviews
+              </button>
             </div>
-          }
+          </div>
+
+          <hr className="border-gray-200 mt-2" />
 
           {showInfo &&
-            <motion.div layoutId="underline">
-              <Info pub={pub} />
-            </motion.div>
+            <Info pub={pub} />
           }
           {showReviews &&
-            <motion.div layoutId="underline">
-              <Reviews pubId={pub.id} pubname={pub.name} user={user} />
-            </motion.div>
+            <Reviews pubId={pub.id} pubname={pub.name} user={user} />
           }
+
 
         </div>
       </div>

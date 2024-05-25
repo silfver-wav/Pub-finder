@@ -32,7 +32,7 @@ export default function StartPage() {
       {width < 700 &&
         <Sheet
           isOpen={true}
-          snapPoints={[0.77, 0.38, 16]}
+          snapPoints={[0.77, 0.35, 16]}
           initialSnap={1}
           className="z-30"
         >
