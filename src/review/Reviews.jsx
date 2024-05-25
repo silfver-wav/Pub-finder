@@ -14,8 +14,7 @@ export default function Reviews({ pubId, pubname }) {
     const handleOpen = () => setOpen(!open);
 
     return (
-        <div className="w-full flex flex-col pt-4">
-            <hr className="border-gray-200 mb-2" />
+        <div className="w-full flex flex-col pt-2">
             <Button onClick={handleOpen} variant="filled" className="bg-white my-2 flex items-center text-black">
                 <MdOutlineReviews size={20} className="mr-2" />
                 Write a review

@@ -12,8 +12,7 @@ export default function Info({ pub }) {
     console.log(info)
 
     return (
-        <div className="w-full pt-4">
-            <hr className="border-gray-200 mb-2" />
+        <div className="w-full pt-2">
             {
                 info ?
                     <RenderInfo info={info} description={pub.description} />
@@ -28,7 +27,9 @@ export default function Info({ pub }) {
 
 const RenderInfo = ({ info, description }) => {
     return (
-        <>
+        <div
+            className="relative flex flex-col rounded-xl bg-gray-900 bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200"
+        >
 
             <p class="block font-oswald text-md antialiased font-light leading-relaxed text-white mb-3">
                 {description}
@@ -84,6 +85,6 @@ const RenderInfo = ({ info, description }) => {
                     {info.accessibility.accessibleParking ? ' Yes' : ' No'}
                 </p>
             </li>
-        </>
+        </div>
     );
 }

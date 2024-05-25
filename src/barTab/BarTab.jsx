@@ -16,7 +16,7 @@ import Reviews from "../review/Reviews";
 import correctEncoding from "../utils/correctEncoding";
 import { motion } from "framer-motion"
 
-export default function BarTab({ pub, user = false, visited, refetch, isSearchedPub = false }) {
+export default function BarTab({ pub, user = false, visited, refetch, isSearchedPub = false, showBottom = true }) {
   const dispatch = useDispatch();
   const [expandedPubId, setExpandedPubId] = useState(null);
   const [hasVisited, setHasVisited] = useState(false);
@@ -60,17 +60,18 @@ export default function BarTab({ pub, user = false, visited, refetch, isSearched
   }, [visited]);
 
   return (
-    <div
-      class={`relative flex w-full max-w-[26rem] flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
-      onClick={() => {
-        dispatch(focusOnPub([pub.lat, pub.lng]))
-        isSearchedPub = false
-      }
-      }
-      tabIndex="0"
-      key={pub.id}
-    >
-      {/*
+    <>
+      <div
+        class={`relative flex w-80 flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
+        onClick={() => {
+          dispatch(focusOnPub([pub.lat, pub.lng]))
+          isSearchedPub = false
+        }
+        }
+        tabIndex="0"
+        key={pub.id}
+      >
+        {/*
         <div
           class="relative mx-2 mt-4 overflow-hidden shadow-lg rounded-xl bg-clip-border shadow-gray-700/20">
           <img
@@ -82,91 +83,92 @@ export default function BarTab({ pub, user = false, visited, refetch, isSearched
         </div>
       */}
 
-      <div class="flex items-center justify-between font-times pt-4 pl-4">
-        <h5 class="block text-2xl antialiased font-medium leading-snug tracking-normal font-oswald text-off_white">
-          {correctEncoding(pub.name)}
-        </h5>
-        {pub.rating != 0 &&
-          <p
-            class="flex items-center gap-1.5 font-oswald text-base font-normal leading-relaxed text-off_white antialiased">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              class="-mt-0.5 h-5 w-5 text-yellow-700">
-              <path fill-rule="evenodd"
-                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                clip-rule="evenodd"></path>
-            </svg>
-            {pub.rating}
-          </p>
-        }
-      </div>
-
-      <div class="pl-4 pb-4">
-
-        <div class="flex items-center justify-between font-times">
-          <p class="block font-oswald text-xl font-normal leading-relaxed text-inherit" >
-            {pub.price}
-          </p>
-          {user && (
-            hasVisited ?
-              <BiSolidBeenHere size={25} className="transition ease-in-out delay-150 ml-40 text-blue-300 hover:text-white hover:-translate-y-1 hover:scale-140 duration-200" onClick={handleVisit} />
-              :
-              <BiSolidBeenHere size={25} className="transition ease-in-out delay-150 ml-40 text-white hover:text-blue-300 hover:-translate-y-1 hover:scale-140 duration-200" onClick={handleVisit} />
-          )}
+        <div class="flex items-center justify-between font-times pt-4 pl-4">
+          <h5 class="block text-2xl antialiased font-medium leading-snug tracking-normal font-oswald text-off_white">
+            {correctEncoding(pub.name)}
+          </h5>
+          {pub.rating != 0 &&
+            <p
+              class="flex items-center gap-1.5 font-oswald text-base font-normal leading-relaxed text-off_white antialiased">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                class="-mt-0.5 h-5 w-5 text-yellow-700">
+                <path fill-rule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              {pub.rating}
+            </p>
+          }
         </div>
 
-        <li class="flex items-center gap-4 text-inherit mb-1">
-          <WiTime1 size={20} />
-          <p class="block font-oswald text-base font-200 leading-relaxed antialiased" >
-            {formatOpeningHoursForToday(pub.openingHours)}
-          </p>
-        </li>
+        <div class="pl-4 pb-4">
 
-
-
-        <li class="flex items-center gap-4 text-inherit mb-1">
-          <GoLocation size={20} />
-          <p class="block font-oswald text-base font-200 leading-relaxed antialiased">
-            {formatLocation(pub.location)}
-          </p>
-        </li>
-
-
-        <div class="grid place-items-center rounded-lg lg:overflow-visible text-inherit">
-          <div class="flex divide-x divide-gray-800 row py-1">
-            <button
-              class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
-              onClick={() => {
-                setShowInfo(!showInfo);
-                setShowReviews(false);
-              }}
-            >
-              More Info
-            </button>
-            <button
-              class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
-              onClick={() => {
-                setShowReviews(!showReviews);
-                setShowInfo(false);
-              }}
-            >
-              Reviews
-            </button>
+          <div class="flex items-center justify-between font-times">
+            <p class="block font-oswald text-xl font-normal leading-relaxed text-inherit" >
+              {pub.price}
+            </p>
+            {user && (
+              hasVisited ?
+                <BiSolidBeenHere size={25} className="transition ease-in-out delay-150 ml-40 text-blue-300 hover:text-white hover:-translate-y-1 hover:scale-140 duration-200" onClick={handleVisit} />
+                :
+                <BiSolidBeenHere size={25} className="transition ease-in-out delay-150 ml-40 text-white hover:text-blue-300 hover:-translate-y-1 hover:scale-140 duration-200" onClick={handleVisit} />
+            )}
           </div>
+
+          <li class="flex items-center gap-4 text-inherit mb-1">
+            <WiTime1 size={20} />
+            <p class="block font-oswald text-base font-200 leading-relaxed antialiased" >
+              {formatOpeningHoursForToday(pub.openingHours)}
+            </p>
+          </li>
+
+
+
+          <li class="flex items-center gap-4 text-inherit mb-1">
+            <GoLocation size={20} />
+            <p class="block font-oswald text-base font-200 leading-relaxed antialiased">
+              {formatLocation(pub.location)}
+            </p>
+          </li>
+
+          {showBottom &&
+            <div class="grid place-items-center rounded-lg lg:overflow-visible text-inherit">
+              <div class="flex divide-x divide-gray-800 row py-1">
+                <button
+                  class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
+                  onClick={() => {
+                    setShowInfo(!showInfo);
+                    setShowReviews(false);
+                  }}
+                >
+                  More Info
+                </button>
+                <button
+                  class="align-middle text-md px-6 font-oswald uppercase transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-140 duration-200"
+                  onClick={() => {
+                    setShowReviews(!showReviews);
+                    setShowInfo(false);
+                  }}
+                >
+                  Reviews
+                </button>
+              </div>
+            </div>
+          }
+
+          {showInfo &&
+            <motion.div layoutId="underline">
+              <Info pub={pub} />
+            </motion.div>
+          }
+          {showReviews &&
+            <motion.div layoutId="underline">
+              <Reviews pubId={pub.id} pubname={pub.name} user={user} />
+            </motion.div>
+          }
+
         </div>
-
-        {showInfo &&
-          <motion.div layoutId="underline">
-            <Info pub={pub} />
-          </motion.div>
-        }
-        {showReviews &&
-          <motion.div layoutId="underline">
-            <Reviews pubId={pub.id} pubname={pub.name} user={user} />
-          </motion.div>
-        }
-
       </div>
-
-    </div>
+    </>
   );
 }
