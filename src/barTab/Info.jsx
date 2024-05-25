@@ -9,8 +9,6 @@ export default function Info({ pub }) {
 
     const { data: info } = useGetAdditionalInfoQuery(pub.id);
 
-    console.log(info)
-
     return (
         <div className="w-full pt-2">
             {

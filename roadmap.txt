@@ -1,0 +1,10 @@
+* honeypot
+* clean up
+* fix auth
+* user with username already exist
+* user with username already exist
+* Loading
+* SideBar (prio)
+* Cards (prio)
+* Fixa searchBar (prio)
+* Mobile View
