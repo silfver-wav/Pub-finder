@@ -9,11 +9,11 @@ const tabs = [
     { label: 'Reviews' }
 ];
 
-export default function TabSwitcher({ pub, user }) {
+export default function TabSwitcher({ pub, user, width }) {
     const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
     return (
-        <div className="rounded-lg bg-gray-900 overflow-hidden shadow-md flex flex-col">
+        <div className={`rounded-lg bg-gray-900 overflow-hidden shadow-md flex flex-col ${width < 350 ? "w-[94vw]" : "w-[47vw]"}`}>
             <nav className="rounded-t-lg text-off_white border-b border-gray-500 h-10">
                 <ul className="flex">
                     {tabs.map((item) => (

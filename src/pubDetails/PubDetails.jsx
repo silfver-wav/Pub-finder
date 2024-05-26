@@ -31,7 +31,7 @@ export default function PubDetails({ mobile = false }) {
 
   if (mobile) {
     return (
-      <div className="flex overflow-x-auto snap-x scrollbar-hidden pl-2">
+      <div className="flex overflow-x-auto snap-x scrollbar-hidden pl-2 overscroll-y-none">
         {Object.keys(searchedPub).length != 0 && (
           <div className="snap-center">
             <BarTabMobile
@@ -42,7 +42,6 @@ export default function PubDetails({ mobile = false }) {
               refetch={refetch}
               isSearchedPub={true}
             />
-            <TabSwitcher pub={searchedPub} user={user} />
           </div>
         )}
         {pubs.map((pub) => (
@@ -53,7 +52,6 @@ export default function PubDetails({ mobile = false }) {
               visited={false}
               isSearchedPub={false}
             />
-            <TabSwitcher pub={pub} user={user} />
           </div>
         ))}
       </div>

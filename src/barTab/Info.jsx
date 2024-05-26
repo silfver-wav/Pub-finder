@@ -15,7 +15,7 @@ export default function Info({ pub }) {
                 info ?
                     <RenderInfo info={info} description={pub.description} />
                     :
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center pt-2">
                         <ImSpinner2 className="animate-spin h-7 w-7" />
                     </div>
             }
@@ -26,7 +26,7 @@ export default function Info({ pub }) {
 const RenderInfo = ({ info, description }) => {
     return (
         <div
-            className="relative flex flex-col rounded-xl bg-gray-900 bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200"
+            className="relative flex flex-col rounded-xl bg-gray-900 bg-clip-border text-off_white shadow-lg my-2 overflow-y-auto max-h-[44vw]"
         >
 
             <p class="block font-oswald text-md antialiased font-light leading-relaxed text-white mb-3">

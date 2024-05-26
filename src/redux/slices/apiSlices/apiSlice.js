@@ -10,6 +10,9 @@ const baseQuery = fetchBaseQuery({
         if (token) {
             headers.set('Authorization', `Bearer ${token}`)
         }
+
+        headers.set('Access-Control-Allow-Origin', '*')
+
         return headers
     }
 })
@@ -33,6 +36,9 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     }
 
     let result = await baseQuery(args, api, extraOptions)
+
+    console.log(result)
+
     if (result?.error?.status == 403) {
         console.log('sending refresh token')
 

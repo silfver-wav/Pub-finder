@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useCallback } from "react";
+import { React, useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { focusOnPub } from "../redux/slices/pubSlice";
 import formatLocation from "../utils/formatLocation";
@@ -10,17 +10,18 @@ import { useDeleteVisitMutation } from "../redux/slices/apiSlices/visitApiSlice"
 import { useVisitMutation } from "../redux/slices/apiSlices/visitApiSlice";
 import correctEncoding from "../utils/correctEncoding";
 import useWindowSize from "../useWindowSize";
+import TabSwitcher from "./TabSwitcher";
 
 export default function BarTabMobile({ pub, user = false, visited, refetch, isSearchedPub = false }) {
     const dispatch = useDispatch();
-    const [expandedPubId, setExpandedPubId] = useState(null);
+
     const [hasVisited, setHasVisited] = useState(false);
     const [visitedPub] = useVisitMutation();
     const [deleteVisit] = useDeleteVisitMutation();
-    const { width, height } = useWindowSize();
-    const toggleExpanded = (pubId) => {
-        setExpandedPubId(expandedPubId === pubId ? null : pubId);
-    };
+    const { width } = useWindowSize();
+
+    const [isVisible, setIsVisible] = useState(false);
+    const targetRef = useRef(null);
 
     const handleVisit = useCallback(async () => {
         if (hasVisited) {
@@ -52,10 +53,34 @@ export default function BarTabMobile({ pub, user = false, visited, refetch, isSe
         setHasVisited(visited);
     }, [visited]);
 
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(entry.isIntersecting);
+            },
+            {
+                root: null, // viewport
+                rootMargin: '0px', // no margin
+                threshold: 0.1, // 10% of target visible
+            }
+        );
+
+        if (targetRef.current) {
+            observer.observe(targetRef.current);
+        }
+
+        // Clean up the observer
+        return () => {
+            if (targetRef.current) {
+                observer.unobserve(targetRef.current);
+            }
+        };
+    }, []);
+
     return (
         <>
             <div
-                class={`relative flex ${width < 350 ? "w-[90vw]" : "w-full"} flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
+                class={`relative flex ${width < 350 ? "w-[94vw]" : "w-[47vw]"} flex-col rounded-xl ${isSearchedPub ? 'bg-gray-700' : 'bg-gray-900'} bg-clip-border text-off_white shadow-lg my-2 cursor-pointer transition ease-in-out delay-150 focus:bg-gray-700 active:bg-gray-700 duration-200`}
                 onClick={() => {
                     dispatch(focusOnPub([pub.lat, pub.lng]))
                     isSearchedPub = false
@@ -111,6 +136,13 @@ export default function BarTabMobile({ pub, user = false, visited, refetch, isSe
                     </li>
                 </div>
             </div>
+            <div ref={targetRef}>
+                {isVisible &&
+                    <TabSwitcher pub={pub} user={user} width={width} />
+                }
+            </div>
+
+
         </>
     );
 }
