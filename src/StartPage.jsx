@@ -31,8 +31,8 @@ export default function StartPage() {
       {width < 700 &&
         <Sheet
           isOpen={true}
-          snapPoints={[0.77, 0.35, 18]}
-          initialSnap={1}
+          snapPoints={[360, 170, 18]}
+          initialSnap={2}
           className="z-30"
         >
           <Sheet.Container>
