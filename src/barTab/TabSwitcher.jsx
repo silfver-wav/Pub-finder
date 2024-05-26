@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import "./BottomBar.css";
+import "./TabSwitcher.css";
 import { motion, AnimatePresence } from "framer-motion"
 import Info from "../barTab/Info"
 import Reviews from "../review/Reviews";
@@ -9,7 +9,7 @@ const tabs = [
     { label: 'Reviews' }
 ];
 
-export default function Tabs({ pub, user }) {
+export default function TabSwitcher({ pub, user }) {
     const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
     return (

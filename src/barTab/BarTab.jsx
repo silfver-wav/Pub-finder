@@ -1,21 +1,17 @@
 import { React, useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { focusOnPub } from "../redux/slices/pubSlice";
-
 import formatLocation from "../utils/formatLocation";
 import formatOpeningHoursForToday from "../utils/formatOpeningHoursForToday";
-
 import { WiTime1 } from "react-icons/wi";
 import { GoLocation } from "react-icons/go";
 import { BiSolidBeenHere } from "react-icons/bi";
 import { useDeleteVisitMutation } from "../redux/slices/apiSlices/visitApiSlice";
 import { useVisitMutation } from "../redux/slices/apiSlices/visitApiSlice";
-
 import Info from "./Info";
 import Reviews from "../review/Reviews";
 import correctEncoding from "../utils/correctEncoding";
-import { motion } from "framer-motion"
-import Tabs from "./Tabs";
+
 
 export default function BarTab({ pub, user = false, visited, refetch, isSearchedPub = false }) {
   const dispatch = useDispatch();

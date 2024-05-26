@@ -1,0 +1,7 @@
+.sideDiv {
+  height: 87vh;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
