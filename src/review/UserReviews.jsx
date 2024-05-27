@@ -5,6 +5,7 @@ import { MdOutlineReviews } from "react-icons/md";
 import { useGetUserReviewsQuery } from "../redux/slices/apiSlices/pubApiSlice";
 import DropdownMenu from "../menu/DropdownMenu";
 import { useDeleteReviewMutation } from "../redux/slices/apiSlices/reviewApiSlice";
+import useWindowSize from "../useWindowSize";
 
 export default function UserReviews() {
     const username = localStorage.getItem("user");
@@ -12,11 +13,9 @@ export default function UserReviews() {
     const [reviewId, setReviewId] = useState();
     const { data: reviews = [], refetch } = useGetUserReviewsQuery(username)
     const [deleteReview] = useDeleteReviewMutation();
-
-    console.log(reviews)
     const [open, setOpen] = useState(false);
-
     const handleOpen = () => setOpen(!open);
+    const { width } = useWindowSize();
 
     const handleDeleteReview = async (id) => {
         try {
@@ -34,7 +33,7 @@ export default function UserReviews() {
                 User Reviews
             </h2>
 
-            <div className="ml-4 mr-4 mt-10 grid grid-cols-4 gap-4 bg-slate-800 text-white">
+            <div className={`ml-4 mr-4 mt-10 ${width > 700 ? "grid grid-cols-4" : ""} gap-4 bg-slate-800 text-white`}>
                 {reviews.map((review) => (
                     <div key={review.id} className="bg-gray-900 rounded-lg p-4">
                         <h1 className="mb-4 text-center text-3xl font-bold text-white">{review.pubname}</h1>

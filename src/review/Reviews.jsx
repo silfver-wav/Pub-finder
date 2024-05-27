@@ -1,20 +1,30 @@
 import { useState } from "react";
-import { Rating, Button, Avatar, Typography } from "@material-tailwind/react";
+import {
+    Rating, Button, Avatar, Typography, Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
+} from "@material-tailwind/react";
 import MakeReview from "./MakeReview";
 import { MdOutlineReviews } from "react-icons/md";
 import { useGetReviewsForPubQuery } from "../redux/slices/apiSlices/pubApiSlice";
+import { useDispatch } from "react-redux";
+import { toggleSheet } from "../redux/slices/sheetSlice";
 
-export default function Reviews({ pubId, pubname }) {
+export default function Reviews({ pubId, pubname, mobile = false }) {
     const [reviewId, setReviewId] = useState();
     const { data: reviews = [], refetch } = useGetReviewsForPubQuery(pubId)
+    const dispatch = useDispatch();
 
-    console.log(reviews)
-    const [open, setOpen] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
 
-    const handleOpen = () => setOpen(!open);
+    const handleOpen = () => {
+        dispatch(toggleSheet());
+        setOpenDialog(!openDialog);
+    }
 
     return (
-        <div className="w-full flex flex-col pt-2  overflow-y-auto max-h-[44vw]">
+        <div className="w-full flex flex-col pt-2 overflow-y-auto max-h-[44vw]">
             <Button onClick={handleOpen} variant="filled" className="bg-white my-2 flex items-center text-black">
                 <MdOutlineReviews size={20} className="mr-2" />
                 Write a review
@@ -65,11 +75,13 @@ export default function Reviews({ pubId, pubname }) {
                 data={null}
                 pubname={pubname}
                 pubId={pubId}
-                isOpen={open}
+                isOpen={openDialog}
                 onClose={handleOpen}
                 update={false}
                 refetch={refetch}
+                mobile={mobile}
             />
+
         </div>
     );
 }

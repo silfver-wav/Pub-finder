@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useGetVisitedPubsQuery, useGetPubsQuery } from "../redux/slices/apiSlices/pubApiSlice";
 import { skipToken } from '@reduxjs/toolkit/query';
 import BarTabMobile from "../barTab/BarTabMobile";
-import TabSwitcher from "../barTab/TabSwitcher";
 import BarTab from "../barTab/BarTab";
 import "./PubDetails.css";
 

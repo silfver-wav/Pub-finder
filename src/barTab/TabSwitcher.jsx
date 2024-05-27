@@ -43,7 +43,7 @@ export default function TabSwitcher({ pub, user, width }) {
                             <Info pub={pub} />
                         }
                         {selectedTab.label == 'Reviews' &&
-                            <Reviews pubId={pub.id} pubname={pub.name} user={user} />
+                            <Reviews pubId={pub.id} pubname={pub.name} user={user} mobile={true} />
                         }
                     </motion.div>
                 </AnimatePresence>

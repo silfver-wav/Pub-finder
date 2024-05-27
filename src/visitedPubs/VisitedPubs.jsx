@@ -3,10 +3,12 @@ import BarTab from "../barTab/BarTab";
 import { skipToken } from "@reduxjs/toolkit/query";
 import DropdownMenu from "../menu/DropdownMenu";
 import "../searchBar/SearchResults.css"
+import useWindowSize from "../useWindowSize";
 
 export default function VisitedPubs() {
     const user = localStorage.getItem("user");
     const { data: visitedPubs, isSuccess } = useGetVisitedPubsQuery(user ? user : skipToken)
+    const { width } = useWindowSize();
 
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
@@ -20,7 +22,7 @@ export default function VisitedPubs() {
         <div className="bg-black overflow-y-auto h-full">
             <DropdownMenu />
             <h2 className="mb-5 text-center text-4xl font-bold tracking-tight text-white pt-10">Vistied Pubs</h2>
-            <div className="ml-4 mr-4 mt-10 grid grid-cols-4 gap-4 bg-slate-800">
+            <div className={`ml-4 mr-4 mt-10 ${width > 700 ? "grid grid-cols-4" : ""} gap-4 bg-slate-800`}>
                 {isSuccess && visitedPubs.map((pub) => (
                     <div className="flex justify-center bg-slate-900 rounded-lg">
                         <div className="w-full">

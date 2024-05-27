@@ -5,7 +5,7 @@ export const visitedApiSlice = apiSlice.injectEndpoints({
         visit: builder.mutation({
             query: ({ pubId, username }) => ({
                 url: `/visited/save/${pubId}/${username}`,
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },

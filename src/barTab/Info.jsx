@@ -29,13 +29,13 @@ const RenderInfo = ({ info, description }) => {
             className="relative flex flex-col rounded-xl bg-gray-900 bg-clip-border text-off_white shadow-lg my-2 overflow-y-auto max-h-[44vw]"
         >
 
-            <p class="block font-oswald text-md antialiased font-light leading-relaxed text-white mb-3">
+            <p className="block font-oswald text-md antialiased font-light leading-relaxed text-white mb-3">
                 {description}
             </p>
 
-            <li class="flex items-center gap-4 text-white mb-1">
+            <li className="flex items-center gap-4 text-white mb-1">
                 <FaToilet size={18} />
-                <p class="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
+                <p className="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
                     {info.washroom ?
                         <GrCheckmark size={17} />
                         :
@@ -45,13 +45,13 @@ const RenderInfo = ({ info, description }) => {
             </li>
 
             {info.website &&
-                <li class="flex items-center gap-4 text-white mb-1">
+                <li className="flex items-center gap-4 text-white mb-1">
                     <FaGlobe size={16} />
                     <a
                         href={info.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="block font-oswald text-base font-200 leading-relaxed text-blue-500 antialiased hover:underline"
+                        className="block font-oswald text-base font-200 leading-relaxed text-blue-500 antialiased hover:underline"
                     >
                         {info.website}
                     </a>
@@ -60,25 +60,25 @@ const RenderInfo = ({ info, description }) => {
 
             <p className="flex">{info.outDoorSeating}</p>
 
-            <li class="flex items-center gap-4 text-white mb-1">
+            <li className="flex items-center gap-4 text-white mb-1">
                 <PiWheelchairFill size={18} />
-                <p class="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
+                <p className="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
                     Accessible Seating:
                     {info.accessibility.accessibleSeating ? ' Yes' : ' No'}
                 </p>
             </li>
 
-            <li class="flex items-center gap-4 text-white mb-1">
+            <li className="flex items-center gap-4 text-white mb-1">
                 <PiWheelchairFill size={18} />
-                <p class="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
+                <p className="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
                     Accessible Entrance:
                     {info.accessibility.accessibleEntrance ? ' Yes' : ' No'}
                 </p>
             </li>
 
-            <li class="flex items-center gap-4 text-white mb-1">
+            <li className="flex items-center gap-4 text-white mb-1">
                 <PiWheelchairFill size={18} />
-                <p class="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
+                <p className="block font-oswald text-base font-200 leading-relaxed text-white antialiased" >
                     Accessible Parking:
                     {info.accessibility.accessibleParking ? ' Yes' : ' No'}
                 </p>
