@@ -18,18 +18,14 @@ export default function StartPage() {
   const snapTo = (i) => ref.current?.snapTo(i);
 
   useEffect(() => {
-    console.log("i am here");
-    console.log("make review: ", makeReview);
     if (makeReview) {
       snapTo(3);
-    } else {
-      snapTo(2);
     }
   }, [makeReview])
 
   return (
     <>
-      <DropdownMenu />
+      <DropdownMenu mobile={width < 700} />
       <SearchBar />
       {width >= 700 &&
         <PubDetails />
@@ -37,7 +33,7 @@ export default function StartPage() {
 
       <MdOutlineLayers
         onClick={() => dispatch(toggleLayer())}
-        className={`size-10 fixed ${width < 300 ? "bottom-2 left-1" : "bottom-6 left-2"} cursor-pointer z-30 text-white hover:h-12 hover:w-12 transition-all`}
+        className={`size-10 fixed ${width < 700 ? "bottom-6 left-1" : "bottom-2 left-1"} cursor-pointer z-30 text-white hover:h-12 hover:w-12 transition-all`}
       />
       <Map className="z-10" />
 
@@ -45,11 +41,12 @@ export default function StartPage() {
         <Sheet
           ref={ref}
           isOpen={true}
-          snapPoints={[1.0, 360, 175, 18]}
+          snapPoints={[1.0, 360, 210, 20]}
           initialSnap={2}
           onSnap={(snapIndex) =>
             console.log('> Current snap point index:', snapIndex)
           }
+          onClose={() => { }}
         >
           <Sheet.Container className="bg-white">
             <Sheet.Header >

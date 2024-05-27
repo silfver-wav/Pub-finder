@@ -8,12 +8,12 @@ import {
 import LoggedInMenu from "./LoggedInMenu";
 import LoggedOutMenu from "./LoggedOutMenu";
 
-export default function DropdownMenu() {
+export default function DropdownMenu({ mobile }) {
     const user = localStorage.getItem("user");
 
     return (
         <div className="relative z-50">
-            <div className="absolute left-2 top-4">
+            <div className={`absolute ${mobile ? "left-[1vw]" : "left-2"} top-4`}>
                 <SpeedDial>
                     <SpeedDialHandler>
                         <IconButton size="lg" className="rounded-full">

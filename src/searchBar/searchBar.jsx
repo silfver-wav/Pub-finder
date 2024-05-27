@@ -74,7 +74,7 @@ export default function SearchBar() {
 
   return (
     <>
-      <div className={`bg-gray-900 ${width < 700 ? "ml-6 mr-2 w-[80vw]" : "w-1/2"} h-10 rounded-lg px-6 shadow-md flex items-center absolute top-5 left-1/2 transform -translate-x-1/2 z-40`}>
+      <div className={`bg-gray-900 ${width < 700 ? "mr-2 ml-6 w-[70vw]" : "w-1/2"} h-10 rounded-lg px-6 shadow-md flex items-center absolute top-5 left-1/2 transform -translate-x-1/2 z-40`}>
         <Input
           type="text"
           label="Search..."

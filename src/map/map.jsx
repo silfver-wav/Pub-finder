@@ -83,7 +83,7 @@ export default function Map() {
   }, [searchedPub])
 
   return (
-    <MapContainer center={[59.31508, 18.072309]} zoom={16} zoomControl={false}>
+    <MapContainer center={[59.31508, 18.072309]} zoom={16} zoomControl={false} className="left-2">
       {renderTileLayer(layer)}
 
       <FocusOnLocation />
