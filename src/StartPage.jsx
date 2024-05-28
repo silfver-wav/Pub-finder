@@ -60,7 +60,6 @@ export default function StartPage() {
           </Sheet.Container>
         </Sheet>
       }
-
     </>
   );
 }
